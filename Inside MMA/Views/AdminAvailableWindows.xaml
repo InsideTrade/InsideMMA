@@ -1,0 +1,26 @@
+﻿<controls:MetroWindow x:Class="Inside_MMA.Views.AdminAvailableWindows"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Inside_MMA.Views"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        Background="{DynamicResource WindowBackgroundBrush}"
+        mc:Ignorable="d" Title="Select windows"
+        Height="350" Width="150" SizeToContent="Height" WindowStartupLocation="CenterOwner">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Margin="0 10 0 0">
+            <Label x:Name="Login"></Label>
+            <CheckBox x:Name="Alerts" Margin="5 5 5 5">Alerts</CheckBox>
+            <CheckBox x:Name="AllTrades" Margin="5 5 5 5">All Trades</CheckBox>
+            <CheckBox x:Name="AllTradesPro" Margin="5 5 5 5">All Trades Pro</CheckBox>
+            <CheckBox x:Name="Level2" Margin="5 5 5 5">Level2</CheckBox>
+            <CheckBox x:Name="Chart" Margin="5 5 5 5">Chart</CheckBox>
+            <CheckBox x:Name="Counter" Margin="5 5 5 5">Counter</CheckBox>
+            <CheckBox x:Name="FastOrder" Margin="5 5 5 5">FastOrder</CheckBox>
+            <CheckBox x:Name="Logbook" Margin="5 5 5 5">Logbook</CheckBox>
+            <CheckBox x:Name="Trading" Margin="5 5 5 5">Trading</CheckBox>
+        </StackPanel>
+        <Button DockPanel.Dock="Bottom" Margin="20 20 20 10" Click="ButtonBase_OnClick">OK</Button>
+    </DockPanel>
+</controls:MetroWindow>

@@ -1,0 +1,41 @@
+﻿<controls:MetroWindow x:Class="Inside_MMA.Views.BalanceReport"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Inside_MMA.Views"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        mc:Ignorable="d"
+        BorderBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="1"
+        Background="{DynamicResource WindowBackgroundBrush}"
+        Title="Balance Report" Height="500" Width="300">
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <Button Command="{Binding ChartCommand}">
+                <iconPacks:PackIconModern Height="15" Width="15" Kind="GraphBar"/>
+            </Button>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+
+    <DockPanel>
+        <GroupBox DockPanel.Dock="Top" Header="Settings">
+            <StackPanel>
+                <controls:DateTimePicker x:Name="From" controls:TextBoxHelper.Watermark="From:" SelectedDate="{Binding From}" ></controls:DateTimePicker>
+                <controls:DateTimePicker x:Name="To" controls:TextBoxHelper.Watermark="To:" SelectedDate="{Binding To}"></controls:DateTimePicker>
+                <Label FontSize="14"  Visibility="Collapsed" controls:VisibilityHelper.IsVisible="{Binding ShowUsers}">User:</Label>
+                <ComboBox ItemsSource="{Binding Logins}" ScrollViewer.CanContentScroll="True" SelectedItem="{Binding SelectedUser}" controls:VisibilityHelper.IsVisible="{Binding ShowUsers}">
+                    <ComboBox.ItemsPanel >
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                </ComboBox>
+                <Button MaxWidth="100" Margin="5 5 5 5" HorizontalAlignment="Right" IsEnabled="{Binding ConfirmEnabled}" Command="{Binding ConfirmCommand}">Confirm</Button>
+            </StackPanel>
+        </GroupBox>
+        <TextBlock DockPanel.Dock="Top" Margin="6" Text="{Binding Balance, StringFormat=Balance: {0}}"></TextBlock>
+        <DataGrid DockPanel.Dock="Top" ItemsSource="{Binding Trades}"></DataGrid>
+    </DockPanel>
+</controls:MetroWindow>

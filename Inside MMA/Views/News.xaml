@@ -1,0 +1,60 @@
+﻿<controls:MetroWindow x:Class="Inside_MMA.Views.News"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Inside_MMA.Views"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        BorderBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="1"
+        Background="{DynamicResource WindowBackgroundBrush}"
+        mc:Ignorable="d"
+        Title="News" Height="300" Width="500">
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <Button Content="Load old news" Command="{Binding LoadOldNews}"/>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+    <DockPanel>
+        <DockPanel.Resources>
+            <Style x:Key="HeaderStyle" TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource MetroDataGridColumnHeader}">
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+            </Style>
+            <DataTemplate x:Key="Details">
+                <Border BorderThickness="2" BorderBrush="{DynamicResource AccentColorBrush}">
+                    <TextBlock FontSize="13" FontWeight="Normal" Width="{Binding ElementName=DataGrid, Path=ActualWidth}" Background="{DynamicResource WindowBackgroundBrush}" TextWrapping="Wrap" Text="{Binding NewsBody}"></TextBlock>
+                </Border>
+            </DataTemplate>
+            <CollectionViewSource x:Key="Cvs" Source="{Binding News}" IsLiveFilteringRequested="True">
+                <CollectionViewSource.SortDescriptions>
+                    <componentModel:SortDescription PropertyName="Time" Direction="Descending"/>
+                </CollectionViewSource.SortDescriptions>
+            </CollectionViewSource>
+        </DockPanel.Resources>
+        <DataGrid x:Name="DataGrid"
+                  ItemsSource="{Binding Source={StaticResource Cvs}}" 
+                  AutoGenerateColumns="False" 
+                  CanUserAddRows="False" 
+                  IsReadOnly="True"
+                  FontSize="13"
+                  FontWeight="DemiBold"
+                  RowDetailsTemplate="{StaticResource Details}" 
+                  RowDetailsVisibilityMode="VisibleWhenSelected"
+                  RowDetailsVisibilityChanged="DetailsEvent">
+            
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="15*" HeaderStyle="{StaticResource HeaderStyle}" Header="Time" Binding="{Binding TimeStamp}" />
+                <DataGridTextColumn Width="20*" HeaderStyle="{StaticResource HeaderStyle}"  Header="Source" Binding="{Binding Source}"/>
+                <DataGridTextColumn Width="65*" HeaderStyle="{StaticResource HeaderStyle}"  Header="Title" Binding="{Binding Title}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</controls:MetroWindow>
+
+
+
+
+
+
+

@@ -1,0 +1,787 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{31C6505A-B077-462D-A769-849BC20BFBC2}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Inside_MMA</RootNamespace>
+    <AssemblyName>Inside MMA</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <PublishUrl>ftp://194.87.232.14/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://194.87.232.14/InsideMMAPublishing/</InstallUrl>
+    <ProductName>Inside MMA</ProductName>
+    <PublisherName>Inside</PublisherName>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>58</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\ico.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>6476D26034D9292933BF138BAE28C8E7D5B962F1</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Inside MMA_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>keys.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.CssSelectors.1.0.2\lib\net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack.CssSelectors, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.CssSelectors.1.0.2\lib\net45\HtmlAgilityPack.CssSelectors.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.4.3.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.4.3\lib\net45\MahApps.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.1.6.0\lib\net45\MahApps.Metro.IconPacks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.2.2\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build.Tasks.v4.0" />
+    <Reference Include="Microsoft.HockeyApp.Core45, Version=4.1.6.1005, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HockeySDK.WPF.4.1.6\lib\net45\Microsoft.HockeyApp.Core45.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.HockeyApp.Kit, Version=4.1.6.1005, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HockeySDK.WPF.4.1.6\lib\net45\Microsoft.HockeyApp.Kit.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.TeamFoundation.Controls, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.TeamFoundation.ReferenceAssemblies.12.0.21005.1\lib\net45\Microsoft.TeamFoundation.Controls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.TeamFoundation.DeleteTeamProject, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.TeamFoundation.ReferenceAssemblies.12.0.21005.1\lib\net45\Microsoft.TeamFoundation.DeleteTeamProject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.TeamFoundation.Git.Controls, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.TeamFoundation.ReferenceAssemblies.12.0.21005.1\lib\net45\Microsoft.TeamFoundation.Git.Controls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.TeamFoundation.ProjectManagement, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.TeamFoundation.ReferenceAssemblies.12.0.21005.1\lib\net45\Microsoft.TeamFoundation.ProjectManagement.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.TeamFoundation.VersionControl.Controls, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.TeamFoundation.ReferenceAssemblies.12.0.21005.1\lib\net45\Microsoft.TeamFoundation.VersionControl.Controls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.TeamFoundation.VersionControl.Controls.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.TeamFoundation.ReferenceAssemblies.12.0.21005.1\lib\net45\Microsoft.TeamFoundation.VersionControl.Controls.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.TeamFoundation.WorkItemTracking.Controls, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.TeamFoundation.ReferenceAssemblies.12.0.21005.1\lib\net45\Microsoft.TeamFoundation.WorkItemTracking.Controls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.TeamFoundation.WorkItemTracking.ControlsCore, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.TeamFoundation.ReferenceAssemblies.12.0.21005.1\lib\net45\Microsoft.TeamFoundation.WorkItemTracking.ControlsCore.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Services.Client, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.TeamFoundation.ReferenceAssemblies.12.0.21005.1\lib\net45\Microsoft.VisualStudio.Services.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Services.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.TeamFoundation.ReferenceAssemblies.12.0.21005.1\lib\net45\Microsoft.VisualStudio.Services.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Services.WebApi, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.TeamFoundation.ReferenceAssemblies.12.0.21005.1\lib\net45\Microsoft.VisualStudio.Services.WebApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Charting, Version=4.2.2.9744, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <HintPath>..\packages\SciChart.4.2.2.9744\lib\net45\SciChart.Charting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SciChart.Core, Version=4.2.2.9744, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <HintPath>..\packages\SciChart.4.2.2.9744\lib\net45\SciChart.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SciChart.Data, Version=4.2.2.9744, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <HintPath>..\packages\SciChart.4.2.2.9744\lib\net45\SciChart.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SciChart.Drawing, Version=4.2.2.9744, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <HintPath>..\packages\SciChart.4.2.2.9744\lib\net45\SciChart.Drawing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SciChart.Drawing.DirectX, Version=4.2.2.9744, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <HintPath>..\packages\SciChart.DirectX.4.2.2.9744\lib\net45\SciChart.Drawing.DirectX.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SharpDX, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>$(SharpDXPackageBinDir)\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.D3DCompiler, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>$(SharpDXPackageBinDir)\SharpDX.D3DCompiler.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D10, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>$(SharpDXPackageBinDir)\SharpDX.Direct3D10.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D9, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>$(SharpDXPackageBinDir)\SharpDX.Direct3D9.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>$(SharpDXPackageBinDir)\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.4.3\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Telegram.Bot, Version=13.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telegram.Bot.13.4.0\lib\net45\Telegram.Bot.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="BubblePaletteProvider.cs" />
+    <Compile Include="ClientSelector.cs" />
+    <Compile Include="CloseableExtension.cs" />
+    <Compile Include="Colelction.cs" />
+    <Compile Include="ConnectorCommands.cs" />
+    <Compile Include="DataGridExtensions.cs" />
+    <Compile Include="DataHandlers\Level2DataHandler.cs" />
+    <Compile Include="DataHandlers\OrderManager.cs" />
+    <Compile Include="DataHandlers\ReportManager.cs" />
+    <Compile Include="DataHandlers\ThreadManager.cs" />
+    <Compile Include="DataHandlers\TickDataHandler.cs" />
+    <Compile Include="DataHandlers\WindowAvailabilityManager.cs" />
+    <Compile Include="DataHandlers\WindowPositionHandler.cs" />
+    <Compile Include="Deserializer.cs" />
+    <Compile Include="INonSecurityWindow.cs" />
+    <Compile Include="Models\Alert.cs" />
+    <Compile Include="Models\Alerts\BaseAlert.cs" />
+    <Compile Include="Models\Alerts\EqualsSizeAlert.cs" />
+    <Compile Include="Models\Alerts\GreaterThanDeltaOIAlert.cs" />
+    <Compile Include="Models\Alerts\GreaterThanEatenSize.cs" />
+    <Compile Include="Models\Alerts\GreaterThanPriceAlert.cs" />
+    <Compile Include="Models\Alerts\GreaterThanSizeAlert.cs" />
+    <Compile Include="IPriceAlert.cs" />
+    <Compile Include="Models\Alerts\LogBookAlert.cs" />
+    <Compile Include="Models\Alerts\SmallerThanPriceAlert.cs" />
+    <Compile Include="Models\Alerts\TrueAlert.cs" />
+    <Compile Include="Models\AllTradesArgs.cs" />
+    <Compile Include="Models\CalendarItem.cs" />
+    <Compile Include="Models\DataForCandlestick.cs" />
+    <Compile Include="Models\Filters\AllTradesFilter.cs" />
+    <Compile Include="Models\InfoModel.cs" />
+    <Compile Include="Models\Level2Args.cs" />
+    <Compile Include="Models\LogBookArgs.cs" />
+    <Compile Include="Models\PortfolioMCT.cs" />
+    <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\ServerStatus.cs" />
+    <Compile Include="Models\TableModelQuotations.cs" />
+    <Compile Include="Models\UniqTimer.cs" />
+    <Compile Include="MyTelegram.cs" />
+    <Compile Include="Properties\Level2Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Level2Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="RememberPlacement.cs" />
+    <Compile Include="UniqueWindowPlacement.cs" />
+    <Compile Include="ViewModels\AlertSelectionViewModel.cs" />
+    <Compile Include="ViewModels\AlertsViewModel.cs" />
+    <Compile Include="ViewModels\AllTradesSimpleViewModel.cs" />
+    <Compile Include="ViewModels\BalanceReportChartViewModel.cs" />
+    <Compile Include="ViewModels\BalanceReportViewModel.cs" />
+    <Compile Include="ViewModels\CalendarViewModel.cs" />
+    <Compile Include="Views\AlertMessage.xaml.cs">
+      <DependentUpon>AlertMessage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Alerts.xaml.cs">
+      <DependentUpon>Alerts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AlertSelection.xaml.cs">
+      <DependentUpon>AlertSelection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AlertsSelectionEditMode.xaml.cs">
+      <DependentUpon>AlertsSelectionEditMode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AllTradesCandlestick.xaml.cs">
+      <DependentUpon>AllTradesCandlestick.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\AllTradesCandlestickViewModel.cs" />
+    <Compile Include="Views\AllTradesSimple.xaml.cs">
+      <DependentUpon>AllTradesSimple.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BalanceReport.xaml.cs">
+      <DependentUpon>BalanceReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BalanceReportChart.xaml.cs">
+      <DependentUpon>BalanceReportChart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BuyMarkerAnnotation.xaml.cs">
+      <DependentUpon>BuyMarkerAnnotation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CalendarMainWindow.xaml.cs">
+      <DependentUpon>CalendarMainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChartStopAlert.xaml.cs">
+      <DependentUpon>ChartStopAlert.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DownloadFileQuotations.xaml.cs">
+      <DependentUpon>DownloadFileQuotations.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FastOrder.xaml.cs">
+      <DependentUpon>FastOrder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FlashWindowHelper.cs" />
+    <Compile Include="IAnchor.cs" />
+    <Compile Include="INotifyInstrumentChanged.cs" />
+    <Compile Include="IRememberPlacement.cs" />
+    <Compile Include="Models\AllTrades.cs" />
+    <Compile Include="Models\AllTradesCounterItem.cs" />
+    <Compile Include="Models\Candle.cs" />
+    <Compile Include="Models\CandleHistory.cs" />
+    <Compile Include="Models\CartItem.cs" />
+    <Compile Include="Models\Client.cs" />
+    <Compile Include="Models\Level2.cs" />
+    <Compile Include="Models\LogBook.cs" />
+    <Compile Include="Models\News.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderResult.cs" />
+    <Compile Include="Models\Security.cs" />
+    <Compile Include="Models\SpreadItem.cs" />
+    <Compile Include="Models\Tick.cs" />
+    <Compile Include="Models\Trade.cs" />
+    <Compile Include="Models\Command.cs" />
+    <Compile Include="Models\UnitedPortfolio.cs" />
+    <Compile Include="Models\UnitedPortfolioDataGridRow.cs" />
+    <Compile Include="Models\WindowData.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Validation.cs" />
+    <Compile Include="ViewModels\AdminViewModel.cs" />
+    <Compile Include="ViewModels\AllTradesChooseViewModel.cs" />
+    <Compile Include="ViewModels\AllTradesCounterViewModel.cs" />
+    <Compile Include="ViewModels\AllTradesViewModel.cs" />
+    <Compile Include="ViewModels\CartViewModel.cs" />
+    <Compile Include="ViewModels\ClientOrdersViewModel.cs" />
+    <Compile Include="ViewModels\ClientsViewModel.cs" />
+    <Compile Include="ViewModels\ClientTradesViewModel.cs" />
+    <Compile Include="connector.cs" />
+    <Compile Include="ViewModels\FastOrderViewModel.cs" />
+    <Compile Include="ViewModels\InsideUserViewModel.cs" />
+    <Compile Include="ViewModels\LogBookViewModel.cs" />
+    <Compile Include="ViewModels\NewOrderViewModel.cs" />
+    <Compile Include="ViewModels\NewStopOrderViewModel.cs" />
+    <Compile Include="ViewModels\NewsViewModel.cs" />
+    <Compile Include="ViewModels\SciChartViewModel.cs" />
+    <Compile Include="ViewModels\SecuritiesViewModel.cs" />
+    <Compile Include="ViewModels\SecurityChooseViewModel.cs" />
+    <Compile Include="ViewModels\Level2ViewModel.cs" />
+    <Compile Include="ViewModels\AllTradesCounterFromFile.cs" />
+    <Compile Include="ViewModels\SpreadViewModel.cs" />
+    <Compile Include="ViewModels\TradesCounterBarChartViewModel.cs" />
+    <Compile Include="ViewModels\UnitedPortfolioViewModel.cs" />
+    <Compile Include="ViewModels\WatchlistViewModel.cs" />
+    <Compile Include="Views\AdminAvailableWindows.xaml.cs">
+      <DependentUpon>AdminAvailableWindows.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AdminUserDialog.xaml.cs">
+      <DependentUpon>AdminUserDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AdminWindow.xaml.cs">
+      <DependentUpon>AdminWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AllTrades.xaml.cs">
+      <DependentUpon>AllTrades.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AllTradesChoose.xaml.cs">
+      <DependentUpon>AllTradesChoose.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AllTradesCounterWindow.xaml.cs">
+      <DependentUpon>AllTradesCounterWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cart.xaml.cs">
+      <DependentUpon>Cart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChangePassDialog.xaml.cs">
+      <DependentUpon>ChangePassDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClientOrders.xaml.cs">
+      <DependentUpon>ClientOrders.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Clients.xaml.cs">
+      <DependentUpon>Clients.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClientStoporders.xaml.cs">
+      <DependentUpon>ClientStoporders.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClientTrades.xaml.cs">
+      <DependentUpon>ClientTrades.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InsideUserLogin.xaml.cs">
+      <DependentUpon>InsideUserLogin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Level2.xaml.cs">
+      <DependentUpon>Level2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LogBook.xaml.cs">
+      <DependentUpon>LogBook.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewOrder.xaml.cs">
+      <DependentUpon>NewOrder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\News.xaml.cs">
+      <DependentUpon>News.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewStopOrder.xaml.cs">
+      <DependentUpon>NewStopOrder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Patchnotes.xaml.cs">
+      <DependentUpon>Patchnotes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SciChartWindow.xaml.cs">
+      <DependentUpon>SciChartWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Securities.xaml.cs">
+      <DependentUpon>Securities.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SecurityChoose.xaml.cs">
+      <DependentUpon>SecurityChoose.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SellMarkerAnnotation.xaml.cs">
+      <DependentUpon>SellMarkerAnnotation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Spread.xaml.cs">
+      <DependentUpon>Spread.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatisticForm.xaml.cs">
+      <DependentUpon>StatisticForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TelegramSettings.xaml.cs">
+      <DependentUpon>TelegramSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TradesCounterBarChart.xaml.cs">
+      <DependentUpon>TradesCounterBarChart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UnitedPortfolio.xaml.cs">
+      <DependentUpon>UnitedPortfolio.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Watchlist.xaml.cs">
+      <DependentUpon>Watchlist.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WindowMessage.xaml.cs">
+      <DependentUpon>WindowMessage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowPlacement.cs" />
+    <Page Include="Views\AlertMessage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Alerts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AlertSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AlertsSelectionEditMode.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AllTradesCandlestick.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AllTradesSimple.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BalanceReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BalanceReportChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BuyMarkerAnnotation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CalendarMainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChartStopAlert.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DownloadFileQuotations.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FastOrder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\IconsNonShared.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AdminAvailableWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AdminUserDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AdminWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AllTrades.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AllTradesChoose.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AllTradesCounterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChangePassDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClientOrders.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Clients.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClientStoporders.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClientTrades.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InsideUserLogin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Level2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LogBook.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NewOrder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\News.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NewStopOrder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Patchnotes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SciChartWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Securities.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SecurityChoose.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LoginForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\Command.cs" />
+    <Compile Include="ViewModels\LoginFormViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="Views\LoginForm.xaml.cs">
+      <DependentUpon>LoginForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Views\SellMarkerAnnotation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Spread.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatisticForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TelegramSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TradesCounterBarChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UnitedPortfolio.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Watchlist.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\WindowMessage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="keys.snk" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <None Include="Properties\Level2Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Level2Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Resource Include="Resources\Entypo.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\WindowsIcons-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Entypo-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ico.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\finam.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 и x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="patchnotes.txt" />
+    <Resource Include="Resources\warning.png" />
+    <Content Include="txmlconnector.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\InsideDB\InsideDB.csproj">
+      <Project>{56ddd985-42ad-49a3-a63b-8d3a22f98f87}</Project>
+      <Name>InsideDB</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\SharpDX.2.6.3\build\SharpDX.targets" Condition="Exists('..\packages\SharpDX.2.6.3\build\SharpDX.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\SharpDX.2.6.3\build\SharpDX.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SharpDX.2.6.3\build\SharpDX.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

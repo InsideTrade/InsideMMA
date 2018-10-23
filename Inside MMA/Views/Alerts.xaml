@@ -1,0 +1,473 @@
+﻿<controls:MetroWindow x:Class="Inside_MMA.Views.Alerts"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Inside_MMA.Views"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:viewModels="clr-namespace:Inside_MMA.ViewModels"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:insideMma="clr-namespace:Inside_MMA"
+        mc:Ignorable="d"
+        Title="Alerts" Height="300" Width="500">
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <Button Command="{Binding Add}">Add</Button>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+    <controls:MetroWindow.Resources>
+        <DataTemplate x:Key="SelectBoardTemplate">
+            <ComboBox IsTextSearchEnabled="True"
+                      IsTextSearchCaseSensitive="False"
+                      IsEditable="True" 
+                      ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.Boards}"
+                      SelectedItem="{Binding Path=Board, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            </ComboBox>
+        </DataTemplate>
+        <DataTemplate x:Key="SelectSeccodeTemplate">
+            <ComboBox IsTextSearchEnabled="True"
+                      IsTextSearchCaseSensitive="False"
+                      IsEditable="True" 
+                      ItemsSource="{Binding Seccodes}"
+                      ScrollViewer.CanContentScroll="True"
+                      SelectedItem="{Binding Seccode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <ComboBox.ItemsPanel >
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+            </ComboBox>
+        </DataTemplate>
+        <DataTemplate x:Key="BoardTemplate">
+            <TextBlock Text="{Binding Board, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+        </DataTemplate>
+        <DataTemplate x:Key="SeccodeTemplate">
+            <TextBlock Text="{Binding Seccode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+        </DataTemplate>
+        <!--<viewModels:BoardCellTemplateSelector 
+            x:Key="BoardCellTemplateSelector" 
+            SelectBoardTemplate="{StaticResource SelectBoardTemplate}"
+            BoardTemplate="{StaticResource BoardTemplate}"/>
+        <viewModels:SeccodeCellTemplateSelector 
+            x:Key="SeccodeCellTemplateSelector" 
+            SelectSeccodeTemplate="{StaticResource SelectSeccodeTemplate}"
+            SeccodeTemplate="{StaticResource SeccodeTemplate}"/>-->
+        <DataTemplate x:Key="SaveTemplate">
+            <Button 
+                BorderThickness="0" 
+                Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.Save}"
+                CommandParameter="{Binding ElementName=AlertsDataGrid, Path=SelectedItem}">
+                <iconPacks:PackIconModern Height="15" Width="15" Kind="Save">
+                </iconPacks:PackIconModern>
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource MetroButton}">
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSizeValid}" Value="True"/>
+                                    <Condition Binding="{Binding IsBoardValid}" Value="True"/>
+                                    <Condition Binding="{Binding IsSeccodeValid}" Value="True"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="True"/>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </DataTemplate>
+        <DataTemplate x:Key="EditTemplate">
+            <Button 
+                BorderThickness="0" 
+                Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.Edit}">
+                <iconPacks:PackIconModern Height="15" Width="15" Kind="Edit">
+                </iconPacks:PackIconModern>
+            </Button>
+        </DataTemplate>
+        <!--<viewModels:ButtonTemplateSelector 
+            x:Key="ButtonTemplateSelector" 
+            SaveTemplate="{StaticResource SaveTemplate}"
+            EditTemplate="{StaticResource EditTemplate}"/>-->
+        <DataTemplate x:Key="DeleteTemplate">
+            <Button 
+                BorderThickness="0" 
+                Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.Delete}"
+                CommandParameter="{Binding ElementName=AlertsDataGrid, Path=SelectedItem}">
+                <iconPacks:PackIconModern Height="15" Width="15" Kind="Delete">
+                </iconPacks:PackIconModern>
+            </Button>
+        </DataTemplate>
+    </controls:MetroWindow.Resources>
+    <Grid>
+        <DataGrid x:Name="AlertsDataGrid" ItemsSource="{Binding AlertsCollection}" SelectedItem="{Binding SelectedAlert}" AutoGenerateColumns="False" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <!--<DataGridTemplateColumn Header="Board" Width="20*" CellTemplateSelector="{StaticResource BoardCellTemplateSelector}"/>
+                <DataGridTemplateColumn Header="Seccode" Width="20*" CellTemplateSelector="{StaticResource SeccodeCellTemplateSelector}"/>
+                <DataGridTextColumn Header="Size" Width="20*">
+                    <DataGridTextColumn.Binding>
+                        <Binding Path="Size" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        </Binding>
+                    </DataGridTextColumn.Binding>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource MetroDataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsEdited}" Value="False">
+                                    <Setter Property="IsHitTestVisible" Value="False"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsSizeValid}" Value="False">
+                                    <Setter Property="BorderBrush" Value="Red"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>-->
+                <DataGridTextColumn Header="Name" Width="70*" Binding="{Binding Name}"></DataGridTextColumn>
+                <DataGridTemplateColumn Header="Active" Width="15*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox HorizontalAlignment="Center" IsChecked="{Binding Active, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource WhiteCheckBox}"></CheckBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="7.5*" CellTemplate="{StaticResource EditTemplate}" />
+                <DataGridTemplateColumn Width="7.5*" CellTemplate="{StaticResource DeleteTemplate}"></DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <!--<ComboBox x:Name="Boards" IsTextSearchEnabled="False" IsEditable="True" TextBoxBase.TextChanged="TextChanged" ItemsSource="{Binding Boards}" Height="50"></ComboBox>-->
+    </Grid>
+</controls:MetroWindow>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

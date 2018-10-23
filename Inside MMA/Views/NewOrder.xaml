@@ -1,0 +1,133 @@
+﻿<controls:MetroWindow x:Class="Inside_MMA.Views.NewOrder"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:Inside_MMA.ViewModels"
+        xmlns:mvvmSolution="clr-namespace:Inside_MMA"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+        dialog:DialogParticipation.Register="{Binding}"
+        mc:Ignorable="d"
+        Background="{DynamicResource WindowBackgroundBrush}"
+        BorderBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="1"
+        Title="New order" SizeToContent="Height" Width="220" SaveWindowPosition="True">
+    <controls:MetroWindow.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </controls:MetroWindow.Resources>
+    <StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="20 0 0 0">
+            <Label Content="Client: " />
+            <TextBlock x:Name="Client" Text="{Binding Client, Mode=TwoWay}" VerticalAlignment="Center"></TextBlock>
+        </StackPanel>
+        <Label Content="Board" Margin="20 0 0 0"/>
+        <TextBox x:Name="Board" Margin="20 0 20 10" TextChanged="Board_OnTextChanged">
+            <TextBox.Text>
+                <Binding Path="Board" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <mvvmSolution:BoardExistsValidationRule ValidatesOnTargetUpdated="True"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        <Label Content="Seccode" Margin="20 0 0 0"/>
+        <TextBox x:Name="Seccode" Margin="20 0 20 10">
+            <TextBox.Text>
+                <Binding Path="Seccode" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <mvvmSolution:SeccodeExistsValidationRule ValidatesOnTargetUpdated="True"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        
+        <Label Margin="20 0 0 0">Size</Label>
+        <TextBox x:Name="Quantity" Margin="21,0,19,10">
+            <TextBox.Text>
+                <Binding Path="Quantity" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <mvvmSolution:QuantityOnlyValidationRule ValidatesOnTargetUpdated="True"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        <CheckBox Content="Bymarket" IsChecked="{Binding Bymarket}" Margin="20 0 0 0"/>
+        <CheckBox Content="Use credit" IsChecked="{Binding UseCredit}" Visibility="{Binding UseCreditVisibility}" Margin="20 5 0 0"/>
+        <Label Content="Price" Margin="20 0 0 0" Visibility="{Binding Visibility, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <TextBox x:Name="Price"  Visibility="{Binding Visibility, Converter={StaticResource BooleanToVisibilityConverter}}" IsVisibleChanged="Price_OnIsVisibleChanged" Margin="20 0 20 10">
+            <TextBox.Text>
+                <Binding Path="Price" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        <Label Content="Buy/sell" Margin="20 0 0 0"/>
+        <ComboBox x:Name="ComboBox" SelectedValue="{Binding BuySell}" SelectedValuePath="Content" Margin="20 0 20 10">
+            <ComboBoxItem IsSelected="True">B</ComboBoxItem>
+            <ComboBoxItem>S</ComboBoxItem>
+        </ComboBox>
+        <CheckBox Margin="20 5 20 5" IsChecked="{Binding KeepOpen}">Keep open</CheckBox>
+        <Grid Margin="20 5 20 5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <CheckBox IsChecked="{Binding O}">O</CheckBox>
+            <CheckBox Grid.Column="1" IsChecked="{Binding S}">S</CheckBox>
+            <CheckBox Grid.Column="2" IsChecked="{Binding T}">T</CheckBox>
+            <CheckBox Grid.Column="3" IsChecked="{Binding B}">B</CheckBox>
+        </Grid>
+        <Button Content="SEND" Command="{Binding ConfirmCommand}" Margin="0 10 0 0" Click="Confirm" controls:ButtonHelper.PreserveTextCase="True">
+            <Button.Style>
+                <Style TargetType="Button" BasedOn="{StaticResource AccentedSquareButtonStyle}">
+                    <Setter Property="IsEnabled" Value="False"/>
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Board}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Seccode}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Quantity}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Price}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="IsEnabled" Value="True"/>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+    </StackPanel>
+</controls:MetroWindow>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,169 @@
+﻿<controls:MetroWindow x:Class="Inside_MMA.Views.ClientStoporders"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Inside_MMA.Views"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        mc:Ignorable="d"
+        BorderBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="1"
+        Background="{DynamicResource WindowBackgroundBrush}"
+        Title="Stoporders" Height="300" Width="800" SaveWindowPosition="True">
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands controls:VisibilityHelper.IsVisible="{Binding WindowAvailabilityManager.SettingsEnabled}">
+            <Button Name="CancelStops" ToolTip="Cancel all stoporders" Command="{Binding CancelAllStoporders}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="0 0 5 0" Text="{Binding ActiveStoporders, StringFormat='{}{0} Stop', Mode=OneWay}"></TextBlock>
+                    <iconPacks:PackIconModern Height="15" Width="15" Kind="Cancel" Spin="{Binding ElementName=CancelStops, Path=IsMouseOver}"/>
+                </StackPanel>
+            </Button>
+            <Button Name="CancelLimits" ToolTip="Cancel all limit orders" Command="{Binding CancelAllOrders}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="0 0 5 0" Text="{Binding ActiveOrders, StringFormat='{}{0} Limit', Mode=OneWay}"></TextBlock>
+                    <iconPacks:PackIconModern Height="15" Width="15" Kind="Cancel" Spin="{Binding ElementName=CancelLimits, Path=IsMouseOver}"/>
+                </StackPanel>
+            </Button>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+    <DockPanel>
+        <DockPanel.Resources>
+            <DataTemplate x:Key="Details">
+                <Border Margin="2 2 2 2" Padding="2">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel.LayoutTransform>
+                            <ScaleTransform ScaleY="0"></ScaleTransform>
+                        </StackPanel.LayoutTransform>
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DetailsVisibility, RelativeSource={RelativeSource AncestorType=DataGridRow}}"
+                                                 Value="Visible">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="LayoutTransform.ScaleY">
+                                                        <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1">
+                                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                                <CubicEase EasingMode="EaseInOut" />
+                                                            </EasingDoubleKeyFrame.EasingFunction>
+                                                        </EasingDoubleKeyFrame>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="LayoutTransform.ScaleY">
+                                                        <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0">
+                                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                                <CubicEase EasingMode="EaseInOut" />
+                                                            </EasingDoubleKeyFrame.EasingFunction>
+                                                        </EasingDoubleKeyFrame>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.ExitActions>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                        <TextBlock Margin="5 5 0 0" Foreground="White" controls:VisibilityHelper.IsCollapsed="{Binding SlCollapsed}">Stop-Loss</TextBlock>
+                        <DataGrid Margin="5 5 0 0" IsHitTestVisible="False" ItemsSource="{Binding Stoploss}" IsReadOnly="True" controls:VisibilityHelper.IsCollapsed="{Binding SlCollapsed}" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Activation price" Binding="{Binding Activationprice}" />
+                                <DataGridTextColumn Header="Order price" Binding="{Binding Orderprice}" />
+                                <DataGridCheckBoxColumn Header="By market" Binding="{Binding IsByMarket, Mode=OneWay}"/>
+                                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <TextBlock Margin="5 5 0 0"  Foreground="White"  controls:VisibilityHelper.IsCollapsed="{Binding TpCollapsed}">Take-Profit</TextBlock>
+                        <DataGrid Margin="5 5 0 0"  ItemsSource="{Binding Takeprofit}" IsReadOnly="True" controls:VisibilityHelper.IsCollapsed="{Binding TpCollapsed}" />
+                    </StackPanel>
+                </Border>
+            </DataTemplate>
+        </DockPanel.Resources>
+        <DataGrid x:Name="Stoporders"
+                  FontSize="13" 
+                  FontWeight="DemiBold"
+                  BorderThickness="1" 
+                  ItemsSource="{Binding ClientStoporders}"
+                  CanUserAddRows="False" 
+                  SelectedItem="{Binding SelectedStoporder}" 
+                  SelectionUnit="FullRow"
+                  GridLinesVisibility="All"
+                  AreRowDetailsFrozen="True" 
+                  RowDetailsVisibilityMode="Collapsed" 
+                  RowDetailsTemplate="{StaticResource Details}"
+                  SelectionMode="Single"
+                  IsReadOnly="True"
+                  AutoGeneratingColumn="Stoporders_OnAutoGeneratingColumn">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="DetailsVisibility" Value="Collapsed"/>
+                    <EventSetter Event="MouseEnter" Handler="MouseEnterRow"></EventSetter>
+                    <EventSetter Event="PreviewMouseRightButtonDown" Handler="RightMouseOnRow"></EventSetter>
+                    <EventSetter Event="MouseLeave" Handler="MouseLeaveRow"></EventSetter>
+                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ToggleDetails"></EventSetter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Buysell}" Value="S">
+                            <Setter Property="Foreground" Value="#FF5252"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Buysell}" Value="B">
+                            <Setter Property="Foreground" Value="Green"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="disabled">
+                            <Setter Property="Foreground" Value="LightGray"></Setter>
+                        </DataTrigger>
+                        <!--<Trigger Property="IsSelected" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="DetailsVisibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="DetailsVisibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.4"  Value="{x:Static Visibility.Collapsed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>-->
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Delete order" Command="{Binding CancelStopOrderCommand}"/>
+                    <MenuItem Header="Open window">
+                        <MenuItem Header="Level2" Command="{Binding OpenWindowCommand}" CommandParameter="level2" IsEnabled="{Binding WindowAvailabilityManager.Level2Enabled}"/>
+                        <MenuItem Header="All trades" Command="{Binding OpenWindowCommand}" CommandParameter="alltrades" IsEnabled="{Binding WindowAvailabilityManager.AllTradesProEnabled}"/>
+                        <MenuItem Header="Candlestick chart" Command="{Binding OpenWindowCommand}" CommandParameter="chart" IsEnabled="{Binding WindowAvailabilityManager.ChartEnabled}"/>
+                        <MenuItem Header="Orders" Command="{Binding OpenWindowCommand}" CommandParameter="orders"/>
+                        <MenuItem Header="StopOrders" Command="{Binding OpenWindowCommand}" CommandParameter="stoporders"/>
+                    </MenuItem>
+                    <ContextMenu.Style>
+                        <Style TargetType="{x:Type ContextMenu}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsSelected, Mode=OneWay}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsSelected, Mode=OneWay}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContextMenu.Style>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+    </DockPanel>
+</controls:MetroWindow>

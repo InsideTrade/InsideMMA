@@ -1,0 +1,127 @@
+﻿<controls:MetroWindow x:Class="Inside_MMA.Views.Watchlist"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        dialogs:DialogParticipation.Register="{Binding}"
+        BorderBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="1"
+        Background="{DynamicResource WindowBackgroundBrush}"
+        Title="{Binding Name}" Height="600" Width="350">
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <Button x:Name="Clipboard" Click="Clipboard_OnClick" ToolTip="Insert instruments from clipboard" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0">
+                <Rectangle Width="15" Height="15" Fill="White">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_clipboard_paste}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+            <Button controls:VisibilityHelper.IsVisible="{Binding WindowAvailabilityManager.SettingsEnabled}" Command="{Binding AddNewWatchList}" Width="30" ToolTip="Add new watchlist" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0" >
+                <Rectangle Width="15" Height="15" Fill="White">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_add}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+            <Button  Command="{Binding Rename}" ToolTip="Rename this watchlist" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0" >
+                <Rectangle Width="15" Height="15" Fill="White">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_page_edit}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+            <Button controls:VisibilityHelper.IsVisible="{Binding WindowAvailabilityManager.SettingsEnabled}" Command="{Binding DeleteWatchList}" ToolTip="Delete this watchlist" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0" >
+                <Rectangle Width="15" Height="15" Fill="White">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_delete}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+    <controls:MetroWindow.Resources>
+        <CollectionViewSource x:Key="ViewSource" Source="{Binding SecList}"/>
+    </controls:MetroWindow.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding Closing}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <DockPanel>
+        <FrameworkElement DataContext="{Binding}"></FrameworkElement>
+        <ComboBox DockPanel.Dock="Top" SelectedValue="{Binding SelectedWatchlist, Mode=TwoWay}" ItemsSource="{Binding Watchlists}" DropDownOpened="ComboBox_OnDropDownOpened" SelectedValuePath="Content"></ComboBox>
+        <Grid DockPanel.Dock="Top" Width="{Binding Width, ElementName=DataGridSec}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="Name" controls:TextBoxHelper.Watermark="Name" Grid.Column="0" TextChanged="OnTextChanged"></TextBox>
+            <TextBox x:Name="Board" controls:TextBoxHelper.Watermark="Board" Grid.Column="1" TextChanged="OnTextChanged"></TextBox>
+            <TextBox x:Name="Seccode" controls:TextBoxHelper.Watermark="SecCode" Grid.Column="2" TextChanged="OnTextChanged"></TextBox>      
+        </Grid>
+        <Popup x:Name="Popup" StaysOpen="False" Placement="Left" PlacementTarget="{Binding ElementName=Clipboard}">
+            <Border BorderBrush="{DynamicResource AccentColorBrush}"
+                    BorderThickness="1" Background="{DynamicResource WindowBackgroundBrush}">
+                <StackPanel Margin="10 10 10 10" MaxWidth="100">
+                    <TextBox x:Name="ClipboardText" Text="{Binding ClipboardText, Mode=OneWay, UpdateSourceTrigger=LostFocus}" TextWrapping="WrapWithOverflow"></TextBox>
+                    <CheckBox Margin="0 5 0 5" IsChecked="{Binding IsMCT}">MCT</CheckBox>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Margin="5" IsDefault="True" Click="ButtonBase_OnClick" Command="{Binding InsertFromClipboardCommand}" CommandParameter="{Binding ElementName=ClipboardText, Path=Text}" MaxWidth="50">OK</Button>
+                        <Button Margin="5" MaxWidth="50" Click="CancelPopupClick">cancel</Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Popup>
+        <DataGrid AllowDrop="True" x:Name="DataGridSec" ItemsSource="{Binding Source={StaticResource ViewSource}}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" SelectionMode="Single" SelectionUnit="FullRow" IsReadOnly="True" HeadersVisibility="None">
+            <DataGrid.Columns>
+                <DataGridTextColumn FontSize="12" Header="Name"
+                      Binding="{Binding Shortname}" Width="*">
+                </DataGridTextColumn>
+                <DataGridTextColumn FontSize="12" Header="Board"
+                      Binding="{Binding Board}" Width="*" />
+                <DataGridTextColumn FontSize="12" Header="Seccode"
+                      Binding="{Binding Seccode}" Width="*" />
+            </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu x:Name="ContextMenu" ContextMenuOpening="ContextMenu_OnContextMenuOpening">
+                    <MenuItem Header="Add to Watchlist" ItemsSource="{Binding WatchlistMenuItems}"/>
+                    <MenuItem Header="Level2" Command="{Binding ContextMenuCommand}" CommandParameter="Level2" IsEnabled="{Binding WindowAvailabilityManager.Level2Enabled}"/>
+                    <MenuItem Header="All Trades" Command="{Binding ContextMenuCommand}" CommandParameter="AllTrades" IsEnabled="{Binding WindowAvailabilityManager.AllTradesEnabled}"/>
+                    <MenuItem Header="All Trades Pro" Command="{Binding ContextMenuCommand}" CommandParameter="AllTradesPro" IsEnabled="{Binding WindowAvailabilityManager.AllTradesProEnabled}"/>
+                    <MenuItem Header="Logbook" Command="{Binding ContextMenuCommand}" CommandParameter="Logbook" IsEnabled="{Binding WindowAvailabilityManager.LogbookEnabled}"/>
+                    <MenuItem Header="Trades Counter (test)" Command="{Binding ContextMenuCommand}"  IsEnabled="{Binding WindowAvailabilityManager.TradesCounterEnabled}" CommandParameter="TradesCounter"/>
+                    <MenuItem Header="Candlestick Chart" Command="{Binding ContextMenuCommand}" CommandParameter="Chart" IsEnabled="{Binding WindowAvailabilityManager.ChartEnabled}"/>
+                    <MenuItem Header="Spread" Command="{Binding ContextMenuCommand}" CommandParameter="Spread"/>
+                    <MenuItem Header="Add Alert" Command="{Binding ContextMenuCommand}" CommandParameter="Alert" IsEnabled="{Binding WindowAvailabilityManager.AlertsEnabled}"/>
+                    <MenuItem Header="Trade">
+                        <MenuItem Header="Add to Cart" Command="{Binding ContextMenuCommand}" IsEnabled="{Binding WindowAvailabilityManager.CartEnabled}"/>
+                        <MenuItem Header="New Order" Command="{Binding ContextMenuCommand}" CommandParameter="NewOrder" IsEnabled="{Binding WindowAvailabilityManager.TradingEnabled}"/>
+                        <MenuItem Header="New Stoporder" Command="{Binding ContextMenuCommand}" CommandParameter="NewStoporder" IsEnabled="{Binding WindowAvailabilityManager.TradingEnabled}"/>
+                        <MenuItem Header="Fast Order" Command="{Binding ContextMenuCommand}" CommandParameter="FastOrder" IsEnabled="{Binding WindowAvailabilityManager.FastOrderEnabled}"/>
+                    </MenuItem>
+                    <ContextMenu.Style>
+                        <Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource MetroContextMenu}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsSelected, Mode=OneWay}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsSelected, Mode=OneWay}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContextMenu.Style>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.InputBindings>
+                <KeyBinding Key="Delete" Command="{Binding DeleteCommand}" />
+            </DataGrid.InputBindings>
+        </DataGrid>
+    </DockPanel>
+</controls:MetroWindow>

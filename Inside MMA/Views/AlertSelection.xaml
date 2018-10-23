@@ -1,0 +1,172 @@
+﻿<controls:MetroWindow x:Class="Inside_MMA.Views.AlertSelection"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:insideMma="clr-namespace:Inside_MMA"
+        mc:Ignorable="d"
+        BorderBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="1"
+        Background="{DynamicResource WindowBackgroundBrush}"
+        Title="AlertSelection" SizeToContent="Height" Width="200" WindowStartupLocation="CenterOwner" >
+    <controls:MetroWindow.Resources>
+        <StackPanel x:Key="Size" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Margin="0 0 5 0">Size:</TextBlock>
+            <controls:NumericUpDown Minimum="1" Value="{Binding Size}"></controls:NumericUpDown>
+        </StackPanel>
+        <StackPanel x:Key="Price" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Margin="0 0 5 0">Price:</TextBlock>
+            <controls:NumericUpDown Minimum="1" Value="{Binding Price}" HasDecimals="True" Interval="0.01"></controls:NumericUpDown>
+        </StackPanel>
+        <StackPanel x:Key="True" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="0 0 5 0">Size:</TextBlock>
+                <controls:NumericUpDown Minimum="1" Value="{Binding Size}"></controls:NumericUpDown>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="0 0 5 0">Eaten %:</TextBlock>
+                <controls:NumericUpDown Minimum="1" Value="{Binding Percentage}"></controls:NumericUpDown>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="0 0 5 0">Direction:</TextBlock>
+                <ComboBox SelectedValue="{Binding BuySell, Mode=TwoWay}" SelectedValuePath="Content">
+                    <ComboBoxItem>Buy</ComboBoxItem>
+                    <ComboBoxItem>Sell</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel x:Key="DeltaOI" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="0 0 5 0">Size:</TextBlock>
+                <controls:NumericUpDown Minimum="{Binding Min}" Value="{Binding Size}"></controls:NumericUpDown>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
+                <RadioButton GroupName="gr" IsChecked="True" Margin="0 0 2 0">Exact</RadioButton>
+                <RadioButton GroupName="gr" IsChecked="{Binding Absolute}" Margin="2 0 0 0">Absolute</RadioButton>
+            </StackPanel>
+        </StackPanel>
+    </controls:MetroWindow.Resources>
+    <Grid Margin="10 5 10 5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15*"/>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="15*"/>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="15*" MaxHeight="{Binding LastRowHeight}"/>
+        </Grid.RowDefinitions>
+        <DockPanel Margin="0 5 0 5" VerticalAlignment="Stretch">
+            <TextBlock DockPanel.Dock="Left" Margin="0 0 5 0" VerticalAlignment="Center">Name:</TextBlock>
+            <TextBox Name="Name" DataContext="{Binding Alert}" VerticalAlignment="Center">
+                <TextBox.Text>
+                    <Binding Path="Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <insideMma:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+        </DockPanel>
+        <Grid Grid.Row="1" Margin="0 5 0 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30*" />
+                <RowDefinition Height="70*" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Margin="0 0 5 0" VerticalAlignment="Center">Instrument:</TextBlock>
+            <Grid Row="1" Margin="0 10 0 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox Name="Board"
+                          IsTextSearchEnabled="True"
+                          IsTextSearchCaseSensitive="False"
+                          IsEditable="True" 
+                          IsEnabled="{Binding EnableTypeSelection}"
+                          ItemsSource="{Binding Boards}"
+                          SelectedValue="{Binding Board}"
+                          Grid.Column="0"
+                          Margin="0 0 2 5">
+                    <ComboBox.SelectedItem>
+                        <Binding RelativeSource="{RelativeSource AncestorType=Window}" Path="DataContext.Alert.Board" Mode="TwoWay"
+                                 UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <insideMma:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </ComboBox.SelectedItem>
+                </ComboBox>
+                <ComboBox Grid.Column="1"
+                          Name="Seccodes"
+                          IsEnabled="{Binding EnableTypeSelection}"
+                          IsEditable="True" IsTextSearchEnabled="True"
+                          IsTextSearchCaseSensitive="False"
+                          ItemsSource="{Binding Seccodes}"
+                          ScrollViewer.CanContentScroll="True"
+                          Margin="2 0 0 5">
+                    <ComboBox.SelectedItem>
+                        <Binding RelativeSource="{RelativeSource AncestorType=Window}" Path="DataContext.Alert.Seccode" Mode="TwoWay"
+                                 UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <insideMma:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </ComboBox.SelectedItem>
+                    <ComboBox.ItemsPanel >
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                </ComboBox>
+            </Grid>
+        </Grid>
+        <DockPanel Grid.Row="2" Margin="0 0 0 10" VerticalAlignment="Stretch">
+            <TextBlock DockPanel.Dock="Left" Margin="0 0 15 0" VerticalAlignment="Center">Type:</TextBlock>
+            <ComboBox x:Name="TypesComboBox" ItemsSource="{Binding Types}" Margin="0 5 0 5" VerticalAlignment="Center" IsEnabled="{Binding EnableTypeSelection}">
+                <ComboBox.Resources>
+                    <!-- Definition in resources necessary because of cyclical dependency -->
+                    <insideMma:NotEmptyValidationRule x:Key="Rule" Element="{x:Reference TypesComboBox}" ValidatesOnTargetUpdated="True" />
+                </ComboBox.Resources>
+                <ComboBox.SelectedItem>
+                    <Binding Path="SelectedType" Mode="TwoWay">
+                        <Binding.ValidationRules>
+                            <StaticResource ResourceKey="Rule"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </ComboBox.SelectedItem>
+            </ComboBox>
+        </DockPanel>
+        <GroupBox Grid.Row="3" Padding="1" Header="Type Settings" Margin="0 0 0 5">
+            <controls:TransitioningContentControl 
+                                                  x:Name="TransitioningContentControl"
+                                                  DataContext="{Binding Alert}"
+                                                  RestartTransitionOnContentChange="True"/>
+
+        </GroupBox>
+        <Button Grid.Row="4" Margin="45 0 45 5" Command="{Binding Ok}" Click="Ok" Content="OK" controls:ButtonHelper.PreserveTextCase="True">
+            <Button.Style>
+                <Style TargetType="Button" BasedOn="{StaticResource AccentedSquareButtonStyle}">
+                    <Setter Property="IsEnabled" Value="False"/>
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Name}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Board}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Seccodes}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=TypesComboBox}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="IsEnabled" Value="True"/>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+    </Grid>
+</controls:MetroWindow>
+
+
+
+
+
+
+

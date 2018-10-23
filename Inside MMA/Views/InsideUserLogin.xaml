@@ -1,0 +1,57 @@
+﻿<controls:MetroWindow x:Class="Inside_MMA.Views.InsideUserLogin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        BorderBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="1"
+        Background="{DynamicResource WindowBackgroundBrush}"
+        Title="Inside Login" Height="270" Width="250" WindowStartupLocation="CenterScreen">
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <Button Click="ViewHelp" ToolTip="View help">
+                <Rectangle x:Name="Rectangle" Width="20"
+                           Height="20"
+                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_book_perspective_help}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+    <Grid>
+        <StackPanel Margin="10 10 10 10">
+        <Label Margin="20 0 20 0">Login</Label>
+        <TextBox x:Name="Login" Margin="20 0 20 10">
+            <TextBox.Text>
+                <Binding Path="Login" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged">
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        <Label Margin="20 0 20 0">Password</Label>
+        <PasswordBox x:Name="PasswordBox" Margin="20 0 20 10" PasswordChanged="PasswordBox_OnPasswordChanged"/>
+        <TextBlock Margin="20 0 20 0" TextWrapping="Wrap" TextAlignment="Center" controls:VisibilityHelper.IsCollapsed="{Binding LinkCollapsed}">
+            <Hyperlink x:Name="Link" NavigateUri="http://inside-trade.ru">
+                <Run Text="{Binding LicenseExpired}"></Run>
+            </Hyperlink>
+        </TextBlock>
+        <TextBlock Text="{Binding Error}" TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="Red" controls:VisibilityHelper.IsCollapsed="{Binding ErrorCollapsed}"></TextBlock>
+         <Button x:Name="Confirm" Margin="20 5 20 20" IsDefault="True" Command="{Binding ConfirmCommand}" CommandParameter="{Binding ElementName=PasswordBox}" Content="Confirm">
+             <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource AccentedSquareButtonStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Login}" Value="">
+                                <Setter Property="IsEnabled" Value="False"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="IsEnabled" Value="True"/>
+                    </Style>
+             </Button.Style>
+            </Button>
+        </StackPanel>
+        <controls:ProgressRing x:Name="ProgressRing" IsLarge="True"></controls:ProgressRing>
+    </Grid>
+</controls:MetroWindow>

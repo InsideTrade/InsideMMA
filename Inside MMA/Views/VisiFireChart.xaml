@@ -1,0 +1,67 @@
+﻿<Window x:Class="MVVM_Solution.Views.VisiFireChart"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MVVM_Solution.Views"
+        xmlns:viewModels="clr-namespace:MVVM_Solution.ViewModels"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+        Title="VisiFireChart" Height="600" Width="1000">
+<Window.DataContext>
+    <viewModels:VisiFireChartViewModel />
+</Window.DataContext>
+    <DockPanel>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+            <TextBlock VerticalAlignment="Center">Timeframe:</TextBlock>
+            <ComboBox ItemsSource="{Binding TimeFrames, Mode=OneTime}" ItemStringFormat="{}{0} min" Margin="5,0,0,0" materialDesign:ComboBoxAssist.ClassicMode="True" SelectedItem="{Binding SelectedItem}">
+            </ComboBox>
+            <TextBlock VerticalAlignment="Center">Period:</TextBlock>
+            <ComboBox Margin="5,0,0,0" materialDesign:ComboBoxAssist.ClassicMode="True" SelectedValuePath="Content" SelectedValue="{Binding SelectedPeriod}">
+                <ComboBoxItem>Today</ComboBoxItem>
+                <ComboBoxItem>2 days</ComboBoxItem>
+                <ComboBoxItem>3 days</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+        <vc:Chart xmlns:vc="clr-namespace:Visifire.Charts;assembly=WPFVisifire.Charts" Name="Chart" ZoomingEnabled="True" ZoomingMode="MouseWheel" BorderThickness="0" Theme="Theme3" View3D="False" AnimationEnabled="True" ToolBarEnabled="True" 
+         Background="#212121"  AnimatedUpdate="True" ColorSet="VisiRed" Watermark="False" LightingEnabled="False" ShadowEnabled="False" Bevel="False">
+            <vc:Chart.AxesX>
+                <vc:Axis ViewportRangeEnabled="True" />
+            </vc:Chart.AxesX>
+            <vc:Chart.AxesY>
+                <vc:Axis ViewportRangeEnabled="True" Enabled="False">
+                    <vc:Axis.Grids>
+                        <vc:ChartGrid Enabled="False"/>
+                    </vc:Axis.Grids>
+                </vc:Axis>
+                <vc:Axis ViewportRangeEnabled="True" AxisType="Secondary">
+                    <vc:Axis.Grids>
+                        <vc:ChartGrid Enabled="False"/>
+                    </vc:Axis.Grids>
+                </vc:Axis>
+            </vc:Chart.AxesY>
+            <vc:Chart.PlotArea>
+                <vc:PlotArea/>
+            </vc:Chart.PlotArea>
+            <vc:Chart.Series>
+                <vc:DataSeries RenderAs="CandleStick" ShowInLegend="False" AxisYType="Secondary" DataSource="{Binding Candles}" PriceUpColor="Green" PriceDownColor="Red" Bevel="False" LineThickness="5">
+                    <vc:DataSeries.DataMappings>
+                        <vc:DataMapping MemberName="AxisXLabel" Path="Time"></vc:DataMapping>
+                        <vc:DataMapping MemberName="Open" Path="Open"></vc:DataMapping>
+                        <vc:DataMapping MemberName="Close" Path="Close"></vc:DataMapping>
+                        <vc:DataMapping MemberName="High" Path="High"></vc:DataMapping>
+                        <vc:DataMapping MemberName="Low" Path="Low"></vc:DataMapping>
+                        <vc:DataMapping MemberName="StickColor" Path="StickColor"></vc:DataMapping>
+                    </vc:DataSeries.DataMappings>
+                </vc:DataSeries>
+                <vc:DataSeries RenderAs="Column" AxisYType="Primary" ShowInLegend="False"></vc:DataSeries>
+            </vc:Chart.Series>
+        </vc:Chart>
+    </DockPanel>
+</Window>
+

@@ -1,0 +1,425 @@
+﻿<controls:MetroWindow
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:viewModels="clr-namespace:Inside_MMA.ViewModels"
+        xmlns:insideMma="clr-namespace:Inside_MMA"
+        x:Class="Inside_MMA.Views.AllTrades"
+        x:Name="Window"
+        mc:Ignorable="d"
+        BorderBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="1"
+        Title="{Binding Seccode, StringFormat=Alltrades \{0\}}" Height="500" Width="600">
+    <controls:MetroWindow.Resources>
+        <Style x:Key="WhiteUnclickableCheckBox" TargetType="{x:Type CheckBox}">
+            <!--<Setter Property="Foreground" Value="{DynamicResource LabelTextBrush}"/>-->
+            <Setter Property="Background" Value="{DynamicResource WhiteBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CheckBoxBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="controls:ControlsHelper.FocusBorderBrush" Value="{DynamicResource HighlightBrush}"/>
+            <Setter Property="controls:ControlsHelper.MouseOverBorderBrush" Value="{DynamicResource CheckBoxMouseOverBrush}"/>
+            <Setter Property="FontFamily" Value="{DynamicResource ContentFontFamily}"/>
+            <Setter Property="FontSize" Value="{DynamicResource ContentFontSize}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="6,0,0,0"/>
+            <Setter Property="IsHitTestVisible" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition x:Name="LeftCol" Width="18"/>
+                                <ColumnDefinition x:Name="RightCol" Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0" To="0.55" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="contentPresenter"/>
+                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="disabled"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="checkBox"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unchecked"/>
+                                    <VisualState x:Name="Indeterminate">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="IndeterminateCheck"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid x:Name="PART_CHECKBOX">
+                                <Rectangle Fill="{DynamicResource TransparentWhiteBrush}" Margin="-6,0"/>
+                                <Border x:Name="normal" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Height="18" Width="18"/>
+                                <Path x:Name="checkBox" Data="M1145.60717773438,430C1145.60717773438,430 1141.44995117188,435.077270507813 1141.44995117188,435.077270507813 1141.44995117188,435.077270507813 1139.23217773438,433.099975585938 1139.23217773438,433.099975585938 1139.23217773438,433.099975585938 1138,434.553833007813 1138,434.553833007813 1138,434.553833007813 1141.48217773438,438 1141.48217773438,438 1141.48217773438,438 1141.96875,437.9375 1141.96875,437.9375 1141.96875,437.9375 1147,431.34619140625 1147,431.34619140625 1147,431.34619140625 1145.60717773438,430 1145.60717773438,430z" Fill="{TemplateBinding Foreground}" Height="10" Opacity="0" Stretch="Fill" UseLayoutRounding="False" Width="12"/>
+                                <Rectangle x:Name="IndeterminateCheck" Fill="{DynamicResource GrayBrush3}" Height="3" Opacity="0" Width="8"/>
+                                <Border x:Name="disabled" BorderThickness="{TemplateBinding BorderThickness}" Background="{DynamicResource SemiTransparentWhiteBrush}" Height="18" Opacity="0" Width="18"/>
+                            </Grid>
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Grid.Column="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" TargetName="normal" Value="{Binding (controls:ControlsHelper.MouseOverBorderBrush), RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="BorderBrush" TargetName="normal" Value="{DynamicResource HighlightBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" TargetName="normal" Value="{Binding (controls:ControlsHelper.FocusBorderBrush), RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </Trigger>
+                            <Trigger Property="FlowDirection" Value="RightToLeft">
+                                <Setter Property="LayoutTransform" TargetName="checkBox">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="-1"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="controls:ToggleButtonHelper.ContentDirection" Value="RightToLeft">
+                                <Setter Property="Padding" Value="0,0,6,0"/>
+                                <Setter Property="Width" TargetName="LeftCol" Value="*"/>
+                                <Setter Property="Grid.Column" TargetName="PART_CHECKBOX" Value="1"/>
+                                <Setter Property="Width" TargetName="RightCol" Value="18"/>
+                                <Setter Property="Grid.Column" TargetName="contentPresenter" Value="0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <DataTemplate x:Key="ExpanderHeader">
+            <TextBlock FontSize="16" Margin="5 0 0 0" Visibility="{Binding RelativeSource={RelativeSource AncestorType=Expander}, Path=IsExpanded, Converter={StaticResource BoolToVis}}">Filters</TextBlock>
+        </DataTemplate>
+        <viewModels:IsEatenSizeAvailable x:Key="IsEatenSizeAvailable" />
+        <viewModels:ShowOpenInterest x:Key="ShowOpenInterest"/>
+        <viewModels:DeltaOIIndicator x:Key="DeltaOiIndicator"/>
+        <viewModels:CheckBoxColorConverter x:Key="CheckBoxColorConverter"/>
+    </controls:MetroWindow.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding Closing}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <Rectangle x:Name="IsCustomizedIcon" Visibility="{Binding Filter.FiltersApplied, Converter={StaticResource BoolToVis}}" Width="15" Height="15" Fill="White">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_tools}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+            <ToggleButton Width="30" IsChecked="{Binding IsAnchorEnabled}"
+              Height="30"
+              Style="{DynamicResource MetroCircleToggleButtonStyle}">
+                <Rectangle Width="15" Height="15" 
+                           Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_anchor}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </ToggleButton>
+            <Button Width="30" Command="{Binding SaveCommand}" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0">
+                <Rectangle Width="15" Height="15" Fill="White">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+            
+            <!--<Button Width="30" Command="{Binding RefreshCommand}" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0">
+                <Rectangle Width="15" Height="15" Fill="White">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>-->
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <FrameworkElement Grid.Row="0" Name="DummyElement" />
+        <Canvas Grid.Row="0" x:Name="Canvas" Panel.ZIndex="200" Focusable="False" Height="{Binding ActualHeight, ElementName=Expander}" Background="{DynamicResource WindowBackgroundBrush}">
+            <Expander x:Name="Expander" MaxHeight="{Binding ElementName=MainGrid, Path=ActualHeight}" HeaderTemplate="{StaticResource ExpanderHeader}" ExpandDirection="Down" Width="{Binding ActualWidth, ElementName=Canvas}" Panel.ZIndex="100" MouseLeave="Expander_OnMouseLeave" Background="{DynamicResource WindowBackgroundBrush}" FontSize="16">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Grid Margin="5 0 0 10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Column="0" Grid.Row="0" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="Filter time:"/></TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="1" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="Filter buy/sell:"/></TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="2" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="Filter size:"/></TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="3" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="Select size:"/></TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="4" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="Select price:"/></TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="5" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="MI only:"/></TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="6" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="Min eaten size:"/></TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="7" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center" ><Run Text="Eaten size:"/></TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="8" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center" Visibility="{Binding Source={x:Reference DummyElement}, Path=DataContext.Board, Converter={StaticResource ShowOpenInterest}}"><Run Text="Min OI delta:"/></TextBlock>
+                        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" Margin="5 5 5 5">
+                            <controls:TimePicker x:Name="FromPicker" SelectedTime="{Binding Filter.FromTime}" PickerVisibility="All" controls:TextBoxHelper.Watermark="From:"  IsEnabled="{Binding IsChecked, ElementName=IsFilteringTime}"/>
+                            <controls:TimePicker x:Name="ToPicker" SelectedTime="{Binding Filter.ToTime}" PickerVisibility="All" controls:TextBoxHelper.Watermark="To:" IsEnabled="{Binding IsChecked, ElementName=IsFilteringTime}"/>
+                            <CheckBox x:Name="IsFilteringTime" IsChecked="{Binding Filter.IsTimeFilterActive}" Margin="5"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Margin="5 5 5 5">
+                            <RadioButton x:Name="All" IsChecked="{Binding Filter.ShowAll}" Margin="0 5 5 5" GroupName="BuySellFilters">All</RadioButton>
+                            <RadioButton x:Name="Buy" IsChecked="{Binding Filter.ShowBuy}" Margin="5" GroupName="BuySellFilters">Buy</RadioButton>
+                            <RadioButton x:Name="Sell" Margin="5" IsChecked="{Binding Filter.ShowSell}" GroupName="BuySellFilters">Sell</RadioButton>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" Margin="5 5 5 5" HorizontalAlignment="Left">
+                            <TextBox x:Name="FilterTextBox" Text="{Binding Filter.FilterSize, UpdateSourceTrigger=PropertyChanged}" Width="40" Height="25" IsHitTestVisible="{Binding IsChecked, ElementName=IsFiltering}">
+                                <TextBox.Style>
+                                    <Style TargetType="{x:Type TextBox}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=IsFiltering}" Value="True">
+                                                <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush}"/>
+                                                <Setter Property="BorderThickness" Value="2"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=IsFiltering}" Value="False">
+                                                <Setter Property="Foreground" Value="DarkGray" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                            <CheckBox x:Name="IsFiltering" IsChecked="{Binding Filter.IsSizeFilterActive, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}" Margin="5">
+                                <CheckBox.Style>
+                                    <Style TargetType="{x:Type CheckBox}"  BasedOn="{StaticResource MetroCheckBox}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=IsFiltering}" Value="True">
+                                                <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush}"/>
+                                                <Setter Property="BorderThickness" Value="2"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </CheckBox.Style>
+                            </CheckBox>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" Margin="5 5 5 5" HorizontalAlignment="Left">
+                            <TextBox x:Name="SelectSizeTextBox" Text="{Binding Filter.SelectSize, UpdateSourceTrigger=PropertyChanged}" Width="40" Height="25" IsHitTestVisible="{Binding IsChecked, ElementName=IsSelecting}">
+                                <TextBox.Style>
+                                    <Style TargetType="{x:Type TextBox}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=IsSelecting}" Value="True">
+                                                <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush}"/>
+                                                <Setter Property="BorderThickness" Value="2"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=IsSelecting}" Value="False">
+                                                <Setter Property="Foreground" Value="DarkGray" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                            <CheckBox x:Name="IsSelecting" IsChecked="{Binding Filter.IsSelectingSize}" Margin="5">
+                                <CheckBox.Style>
+                                    <Style TargetType="{x:Type CheckBox}"  BasedOn="{StaticResource MetroCheckBox}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=IsSelecting}" Value="True">
+                                                <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush}"/>
+                                                <Setter Property="BorderThickness" Value="2"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </CheckBox.Style>
+                            </CheckBox>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" Margin="5 5 5 5" HorizontalAlignment="Left">
+                            <TextBox x:Name="SelectPriceTextBox" Width="40" Height="25" IsHitTestVisible="{Binding IsChecked, ElementName=IsSelectingPrice}">
+                                <TextBox.Text>
+                                    <Binding Path="Filter.SelectPrice" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <insideMma:NumberOnlyValidationRule ValidatesOnTargetUpdated="True"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                                <TextBox.Style>
+                                    <Style TargetType="{x:Type TextBox}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=IsSelectingPrice}" Value="True">
+                                                <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush}"/>
+                                                <Setter Property="BorderThickness" Value="2"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=IsSelectingPrice}" Value="False">
+                                                <Setter Property="Foreground" Value="DarkGray" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                            <CheckBox x:Name="IsSelectingPrice" IsChecked="{Binding Filter.IsSelectingPrice}" Margin="5">
+                                <CheckBox.Style>
+                                    <Style TargetType="{x:Type CheckBox}"  BasedOn="{StaticResource MetroCheckBox}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=IsSelectingPrice}" Value="True">
+                                                <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush}"/>
+                                                <Setter Property="BorderThickness" Value="2"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </CheckBox.Style>
+                            </CheckBox>
+                        </StackPanel>
+                        <CheckBox x:Name="MiOnlyCheckBox" IsChecked="{Binding Filter.IsMiOnly}" Grid.Column="1" Grid.Row="5" FlowDirection="RightToLeft" HorizontalAlignment="Left" Margin="0 5 5 5">
+                        </CheckBox>
+                        <controls:NumericUpDown x:Name="MinEatenSize" Margin="5" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" Minimum="0" Interval="10" Value="{Binding Filter.MinEatenSize, UpdateSourceTrigger=PropertyChanged}"></controls:NumericUpDown>
+                        <controls:NumericUpDown x:Name="EatenSize" Margin="5" Grid.Column="1" Grid.Row="7" HorizontalAlignment="Left" Minimum="0" Value="{Binding Filter.EatenSize}"></controls:NumericUpDown>
+                        <controls:NumericUpDown x:Name="MinOIDelta" Margin="5" Grid.Column="1" Grid.Row="8" HorizontalAlignment="Left" Minimum="0" Value="{Binding Filter.MinOiDelta}" Visibility="{Binding Source={x:Reference DummyElement}, Path=DataContext.Board, Converter={StaticResource ShowOpenInterest}}"></controls:NumericUpDown>
+                    </Grid>
+                </ScrollViewer>
+            </Expander>
+        </Canvas>
+
+        <DataGrid x:Name="DataGridAllTrades"
+                  Grid.Row="1" 
+                  GridLinesVisibility="All"
+                  ItemsSource="{Binding Items, Mode=OneWay, NotifyOnTargetUpdated=True}"
+                  AutoGenerateColumns="False" IsReadOnly="True"
+                  VirtualizingStackPanel.IsVirtualizing="True" 
+                  VirtualizingStackPanel.VirtualizationMode="Recycling" 
+                  ScrollViewer.CanContentScroll="True"
+                  SelectedItem="{Binding SelectedTrade}">
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Buysell}" Value="S">
+                            <Setter Property="Foreground" Value="#FF5252"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Buysell}" Value="B">
+                            <Setter Property="Foreground" Value="Green"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Buysell}" Value="">
+                            <Setter Property="Background" Value="Transparent"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <!--ElementStyle="{StaticResource WhiteUnclickableCheckBox}"-->
+                <DataGridCheckBoxColumn  Width="40"
+                                        EditingElementStyle="{StaticResource WhiteUnclickableCheckBox}"
+                                        Header="MI"
+                                        Binding="{Binding IsMul}">
+                    <DataGridCheckBoxColumn.ElementStyle>
+                        <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource WhiteUnclickableCheckBox}">
+                            <Setter Property="Foreground">
+                                <Setter.Value>
+                                    <Binding Converter="{StaticResource CheckBoxColorConverter}" Path="MiSide"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridCheckBoxColumn.ElementStyle>
+                </DataGridCheckBoxColumn>
+
+                <DataGridTextColumn FontSize="13" Header="Seccode" FontWeight="Bold"
+                      Binding="{Binding Seccode}" Width="*"/>
+                <DataGridTextColumn FontSize="13" Header="Price" FontWeight="Bold"
+                      Binding="{Binding Price}" Width="*" />
+                <DataGridTextColumn FontSize="13" Header="Size" FontWeight="Bold"
+                      Binding="{Binding Quantity}" Width="*">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource MetroDataGridCell}">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <MultiBinding Converter="{StaticResource IsEatenSizeAvailable}">
+                                        <Binding Path="IsEaten" />
+                                        <Binding Path="Quantity" />
+                                        <Binding Source="{x:Reference MinEatenSize}" Path="Value"/>
+                                        <Binding Source="{x:Reference DummyElement}" Path="DataContext.Filter.EatenSize" />
+                                    </MultiBinding>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Foreground">
+                                <Setter.Value>
+                                    <MultiBinding Converter="{StaticResource IsEatenSizeAvailable}" ConverterParameter="foreground">
+                                        <Binding Path="IsEaten" />
+                                        <Binding Path="Quantity" />
+                                        <Binding Source="{x:Reference MinEatenSize}" Path="Value"/>
+                                        <Binding Source="{x:Reference DummyElement}" Path="DataContext.Filter.EatenSize" />
+                                        <Binding Path="Buysell"/>
+                                    </MultiBinding>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn FontSize="13" Header="Tradetime" FontWeight="Bold"
+                      Binding="{Binding Time}" Width="*" />
+                <DataGridTextColumn FontSize="13" Header="Sum" FontWeight="Bold"
+                      Binding="{Binding Sum}" Width="*" />
+                <DataGridTextColumn FontSize="13" Header="Pricelist" FontWeight="Bold"
+                      Binding="{Binding PriceList}" Width="*" />
+                <DataGridTextColumn FontSize="13" Header="Mi side" FontWeight="Bold"
+                      Binding="{Binding MiSide}" Width="*" />
+                <DataGridTextColumn FontSize="13" Header="Open interest" FontWeight="Bold"
+                                    Visibility="{Binding Source={x:Reference DummyElement}, Path=DataContext.Board, Converter={StaticResource ShowOpenInterest}}"
+                      Binding="{Binding OpenInterest}" Width="*" />
+                <DataGridTextColumn FontSize="13" Header="Delta OI" FontWeight="Bold" 
+                                    Visibility="{Binding Source={x:Reference DummyElement}, Path=DataContext.Board, Converter={StaticResource ShowOpenInterest}}"
+                                    Binding="{Binding InterestDelta}" Width="*">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource MetroDataGridCell}">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <MultiBinding Converter="{StaticResource DeltaOiIndicator}">
+                                        <Binding Path="InterestDelta" />
+                                        <Binding Source="{x:Reference MinOIDelta}" Path="Value"/>
+                                    </MultiBinding>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Foreground">
+                                <Setter.Value>
+                                    <MultiBinding Converter="{StaticResource DeltaOiIndicator}" ConverterParameter="foreground">
+                                        <Binding Path="InterestDelta" />
+                                        <Binding Source="{x:Reference MinOIDelta}" Path="Value"/>
+                                        <Binding Path="Buysell"/>
+                                    </MultiBinding>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, 
+                              Path=PlacementTarget.DataContext.SelectedTrade.Quantity, FallbackValue='-'}"
+                              HeaderStringFormat="Select size: {0}"
+                              Click="ContextMenuSizeSelect"></MenuItem>
+                    <MenuItem Header="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, 
+                              Path=PlacementTarget.DataContext.SelectedTrade.Price, FallbackValue='-'}"
+                              HeaderStringFormat="Select price: {0}"
+                              Click="ContextMenuPriceSelect"></MenuItem>
+                    <MenuItem Header="Clear filters" Click="ClearFilters"></MenuItem>
+                    <MenuItem Header="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, 
+                              Path=PlacementTarget.DataContext.SelectedTrade.Quantity, FallbackValue='-'}"
+                              HeaderStringFormat="Size selector: {0}" Command="{Binding ShowChart}"></MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+    </Grid>
+
+</controls:MetroWindow>

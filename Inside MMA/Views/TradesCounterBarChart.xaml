@@ -1,0 +1,39 @@
+﻿<controls:MetroWindow x:Class="Inside_MMA.Views.TradesCounterBarChart"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Inside_MMA.Views"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:s="http://schemas.abtsoftware.co.uk/scichart"
+        mc:Ignorable="d"
+        Title="TradesCounterBarChart" Height="300" Width="300" Closed="TradesCounterBarChart_OnClosed">
+    <Grid>
+        <s:SciChartSurface Background="Transparent">
+
+            <s:SciChartSurface.XAxis>
+                <s:NumericAxis x:Name="XAxis" AxisTitle="Size" DrawMajorBands="False" DrawMinorGridLines="False" DrawMinorTicks="False"/>
+            </s:SciChartSurface.XAxis>
+
+            <s:SciChartSurface.YAxis>
+                <s:NumericAxis x:Name="YAxis" AxisTitle="Buy/sell" DrawMajorBands="False" DrawMinorGridLines="False" DrawMinorTicks="False"/>
+            </s:SciChartSurface.YAxis>
+            
+            <s:SciChartSurface.ChartModifier>
+                <s:ModifierGroup>
+                    <s:ZoomExtentsModifier />
+                    <s:XAxisDragModifier />
+                    <s:YAxisDragModifier/>
+                    <s:MouseWheelZoomModifier/>
+                    <s:ZoomPanModifier></s:ZoomPanModifier>
+                </s:ModifierGroup>
+            </s:SciChartSurface.ChartModifier>
+            
+            <s:SciChartSurface.RenderableSeries>
+                <s:StackedColumnRenderableSeries DataSeries="{Binding Buy}"  UseUniformWidth="True" Fill="DarkGreen" Stroke="DarkGreen" />
+                <s:StackedColumnRenderableSeries DataSeries="{Binding Sell}" UseUniformWidth="True" Fill="DarkRed" Stroke="DarkRed" />
+            </s:SciChartSurface.RenderableSeries>
+        </s:SciChartSurface>
+
+    </Grid>
+</controls:MetroWindow>

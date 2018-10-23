@@ -1,0 +1,19 @@
+﻿<Window x:Class="Inside_MMA.Views.AllTradesChoose"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:Inside_MMA.ViewModels"
+        mc:Ignorable="d"
+        Title="AllTradesChoose" Height="300" Width="300">
+    <Window.DataContext>
+        <viewModels:AllTradesChooseViewModel/>
+    </Window.DataContext>
+    <StackPanel>
+        <Label Content="Board"/>
+        <TextBox Text="{Binding Board, Mode=TwoWay}"/>
+        <Label Content="Seccode"/>
+        <TextBox Text="{Binding Seccode, Mode=TwoWay}" />
+        <Button Content="OK" Width="100" Command="{Binding OkCommand}"/>
+    </StackPanel>
+</Window>

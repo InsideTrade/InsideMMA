@@ -1,0 +1,75 @@
+﻿<controls:MetroWindow x:Class="Inside_MMA.Views.UnitedPortfolio"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Inside_MMA.ViewModels"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        BorderBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="1"
+        Background="{DynamicResource WindowBackgroundBrush}"
+        FontSize="14"
+        Title="UnitedPortfolio" Height="300" Width="600">
+    <Grid>
+        <TabControl>
+            <TabItem Header="UnitedPortfolio" >
+                <StackPanel>
+                    <DataGrid ItemsSource="{Binding UnitedPortfolioDataGridRows}" CanUserAddRows="False" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Money">
+                <StackPanel>
+                    <DataGrid ItemsSource="{Binding MoneyDataGridRowses}" CanUserAddRows="False" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Asset">
+                <StackPanel>
+                    <DataGrid ItemsSource="{Binding AssetDataGridRowses}" CanUserAddRows="False" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Security">
+                <StackPanel>
+                    <DataGrid ItemsSource="{Binding UnitedPortfolioSecurityDataGridRowses}" CanUserAddRows="False" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="ValuePart">
+                <StackPanel>
+                    <DataGrid ItemsSource="{Binding ValuePartDataGridRowses}" CanUserAddRows="False" />
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</controls:MetroWindow>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

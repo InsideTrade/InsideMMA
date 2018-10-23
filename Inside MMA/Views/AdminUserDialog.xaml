@@ -1,0 +1,52 @@
+﻿<controls:MetroWindow x:Class="Inside_MMA.Views.AdminUserDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Inside_MMA.Views"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+                      BorderBrush="{DynamicResource AccentColorBrush}"
+                      BorderThickness="1"
+                      Background="{DynamicResource WindowBackgroundBrush}"
+        Title="AdminUserDialog" Width="300" SizeToContent="Height">
+    <StackPanel>
+        <Label>Login</Label>
+        <TextBox x:Name="Login"></TextBox>
+        <Label>Password</Label>
+        <TextBox x:Name="Password" controls:TextBoxHelper.Watermark="Leave empty to retain old password"></TextBox>
+        <Label>E-mail</Label>
+        <TextBox x:Name="Email"></TextBox>
+        <Label>Privileges</Label>
+        <ComboBox x:Name="Privileges" SelectedValuePath="Content">
+            <ComboBoxItem>admin</ComboBoxItem>
+            <ComboBoxItem IsSelected="True">user</ComboBoxItem>
+            <ComboBoxItem>free</ComboBoxItem>
+            <ComboBoxItem>demo</ComboBoxItem>
+        </ComboBox>
+        <StackPanel>
+            <Label>License</Label>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="Day" Width="60" controls:TextBoxHelper.Watermark="Day"></TextBox>
+                <TextBox x:Name="Month" Width="60" controls:TextBoxHelper.Watermark="Month"></TextBox>
+                <TextBox x:Name="Year" Width="60" controls:TextBoxHelper.Watermark="Year"></TextBox>
+            </StackPanel>
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=Privileges, Path=Text}" Value="demo">
+                            <Setter Property="Visibility" Value="Collapsed"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+        </StackPanel>
+        
+        <!--<ComboBox x:Name="LicenseTypeComboBox" SelectedValuePath="Content">
+            <ComboBoxItem>Standard</ComboBoxItem>
+            <ComboBoxItem>Pro</ComboBoxItem>
+        </ComboBox>-->
+        <CheckBox x:Name="IsUsa" Margin="5" FontSize="16" IsChecked="False">Usa</CheckBox>
+        <Button Click="Confirm">Confirm</Button>
+    </StackPanel>
+</controls:MetroWindow>

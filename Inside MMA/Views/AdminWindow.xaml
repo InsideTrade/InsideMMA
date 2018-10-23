@@ -1,0 +1,143 @@
+﻿<controls:MetroWindow x:Class="Inside_MMA.Views.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Inside_MMA.Views"
+        dialogs:DialogParticipation.Register="{Binding}"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+        xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        mc:Ignorable="d"
+        Title="AdminWindow" Height="300" SizeToContent="Width" Width="420">
+    <controls:MetroWindow.Resources>
+        <CollectionViewSource x:Key="Users" IsLiveFilteringRequested="True" Source="{Binding UsersCollection, Mode=OneWay}">
+        </CollectionViewSource>
+    </controls:MetroWindow.Resources>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Add" Command="{Binding AddCommand}"/>
+            <MenuItem Header="Edit" Command="{Binding EditCommand}" IsEnabled="{Binding OptionEnabled}"/>
+            <MenuItem Header="Delete" Command="{Binding DeleteCommand}" IsEnabled="{Binding OptionEnabled}"/>
+            <MenuItem Header="Sleep" Command="{Binding SleepCommand}" IsEnabled="{Binding OptionEnabled}"/>
+            <MenuItem Header="Unsleep" Command="{Binding UnsleepCommand}" IsEnabled="{Binding OptionEnabled}"/>
+            <MenuItem Header="Windows" Command="{Binding WindowsCommand}" IsEnabled="{Binding OptionEnabled}"/>
+            <MenuItem Header="Disconnect" Command="{Binding DisconnectCommand}" IsEnabled="{Binding OptionEnabled}"/>
+            <MenuItem Header="IM" Command="{Binding SendMessageCommand}"/>
+            <MenuItem Header="Broadcast message" Command="{Binding BroadcastMessage}"/>
+            <MenuItem Header="Orders control" IsEnabled="{Binding OptionEnabled}">
+                <MenuItem Header="Cancel orders" Command="{Binding CancelOrdersCommand}"/>
+                <MenuItem Header="Cancel stoporders" Command="{Binding CancelStopordersCommand}"/>
+                <MenuItem Header="Close balance" Command="{Binding CloseBalanceCommand}"/>
+                <MenuItem StaysOpenOnClick="True">
+                    <MenuItem.Template>
+                        <ControlTemplate TargetType="{x:Type MenuItem}">
+                            <StackPanel Orientation="Horizontal" Margin="25 0 0 0">
+                                <Label Margin="0 0 5 0">Auto sleep</Label>
+                                <CheckBox IsChecked="{Binding SelectedUser.AutoSleep, Mode=TwoWay}" Command="{Binding EditAutoSleepCommand}"></CheckBox>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </MenuItem.Template>
+                </MenuItem>
+                <MenuItem StaysOpenOnClick="True">
+                    <MenuItem.Template>
+                        <ControlTemplate TargetType="{x:Type MenuItem}">
+                            <StackPanel Orientation="Horizontal" Margin="25 0 0 0">
+                                <Label Margin="0 0 5 0">Sleep threshold:</Label>
+                                <controls:NumericUpDown HasDecimals="False" Value="{Binding SelectedUser.SleepThreshold, Mode=TwoWay}"/>
+                                <Button Command="{Binding EditSleepThresholdCommand}">OK</Button>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </MenuItem.Template>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+            <RadioButton x:Name="RusRadio" GroupName="group" Margin="5" Checked="RusClick">RUS</RadioButton>
+            <RadioButton GroupName="group" Margin="5" Checked="UsaClick">USA</RadioButton>
+        </StackPanel>
+        <DataGrid x:Name="Data" ItemsSource="{Binding Source={StaticResource Users}}" SelectionUnit="FullRow" IsReadOnly="True" SelectedItem="{Binding SelectedUser, Mode=TwoWay}" AutoGeneratingColumn="OnAutoGeneratingColumn">
+            <DataGrid.ContextMenu>
+                <ContextMenu x:Name="ContextMenu">
+                    <MenuItem Header="{Binding SelectedUser.Login}" IsHitTestVisible="False" BorderBrush="White" BorderThickness="0 0 0 1"/>
+                    <MenuItem Header="Cancel orders" Command="{Binding CancelOrdersCommand}"/>
+                    <MenuItem Header="Cancel stoporders" Command="{Binding CancelStopordersCommand}"/>
+                    <MenuItem Header="Close balance" Command="{Binding CloseBalanceCommand}"/>
+                    <MenuItem StaysOpenOnClick="True">
+                        <MenuItem.Template>
+                            <ControlTemplate TargetType="{x:Type MenuItem}">
+                                <StackPanel Orientation="Horizontal" Margin="25 0 0 0">
+                                    <Label Margin="0 0 5 0">Auto sleep</Label>
+                                    <CheckBox IsChecked="{Binding SelectedUser.AutoSleep, Mode=TwoWay}" Command="{Binding EditAutoSleepCommand}"></CheckBox>
+                                </StackPanel>
+                            </ControlTemplate>
+                        </MenuItem.Template>
+                    </MenuItem>
+                    <MenuItem StaysOpenOnClick="True">
+                        <MenuItem.Template>
+                            <ControlTemplate TargetType="{x:Type MenuItem}">
+                                <StackPanel Orientation="Horizontal" Margin="25 0 0 0">
+                                    <Label Margin="0 0 5 0">Sleep threshold:</Label>
+                                    <controls:NumericUpDown HasDecimals="False" Value="{Binding SelectedUser.SleepThreshold, Mode=TwoWay}"/>
+                                    <Button Command="{Binding EditSleepThresholdCommand}">OK</Button>
+                                </StackPanel>
+                            </ControlTemplate>
+                        </MenuItem.Template>
+                    </MenuItem>
+                    <MenuItem StaysOpenOnClick="True">
+                        <MenuItem.Template>
+                            <ControlTemplate TargetType="{x:Type MenuItem}">
+                                <StackPanel Orientation="Horizontal" Margin="25 0 0 0">
+                                    <Label Margin="0 0 5 0">Profit control</Label>
+                                    <CheckBox IsChecked="{Binding SelectedUser.ProfitControl, Mode=TwoWay}" Command="{Binding EditProfitControlCommand}"></CheckBox>
+                                </StackPanel>
+                            </ControlTemplate>
+                        </MenuItem.Template>
+                    </MenuItem>
+                    <MenuItem StaysOpenOnClick="True">
+                        <MenuItem.Template>
+                            <ControlTemplate TargetType="{x:Type MenuItem}">
+                                <StackPanel Orientation="Horizontal" Margin="25 0 0 0">
+                                    <Label Margin="0 0 5 0">Profit limit:</Label>
+                                    <controls:NumericUpDown HasDecimals="False" Value="{Binding SelectedUser.ProfitLimit, Mode=TwoWay}"/>
+                                    <Button Command="{Binding EditProfitLimitCommand}">OK</Button>
+                                </StackPanel>
+                            </ControlTemplate>
+                        </MenuItem.Template>
+                    </MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+    </DockPanel>
+</controls:MetroWindow>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

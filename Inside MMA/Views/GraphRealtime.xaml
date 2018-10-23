@@ -1,0 +1,28 @@
+﻿<Window x:Class="MVVM_Solution.Views.ChartWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+        Title="Mega Chart" Height="500" Width="800" Closing="ChartWindow_OnClosing">
+    
+    <DockPanel>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+            <TextBlock VerticalAlignment="Center">Timeframe:</TextBlock>
+            <ComboBox Margin="5,0,0,0" SelectionChanged="Selector_OnSelectionChanged">
+                <ComboBoxItem>1 min</ComboBoxItem>
+                <ComboBoxItem IsSelected="True">5 min</ComboBoxItem>
+                <ComboBoxItem>15 min</ComboBoxItem>
+                <ComboBoxItem>60 min</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+        
+        <Grid Name="greedChart">
+            <WindowsFormsHost Margin="6" Name="ChartHost" />
+        </Grid>
+    </DockPanel>
+</Window>
+

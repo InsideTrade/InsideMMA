@@ -1,0 +1,39 @@
+﻿<controls:MetroWindow x:Class="Inside_MMA.Views.Spread"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Inside_MMA.Views"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        BorderBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="1"
+        Title="{Binding Seccode, StringFormat='Spread {0}'}" Height="300" Width="300">
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <ToggleButton Width="30" IsChecked="{Binding IsAnchorEnabled}"
+                          Height="30"
+                          Style="{DynamicResource MetroCircleToggleButtonStyle}">
+                <Rectangle Width="15"
+                           Height="15"
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill"
+                                     Visual="{StaticResource appbar_anchor}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </ToggleButton>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+    <Grid>
+        <DataGrid FontSize="13" FontWeight="Bold" ItemsSource="{Binding SpreadItems}" AutoGenerateColumns="False" IsReadOnly="True" GridLinesVisibility="All">
+            <DataGrid.Columns >
+                <DataGridTextColumn Width="*" Header="Ask" Binding="{Binding Bid}" Foreground="#FF5252"/>
+                <DataGridTextColumn Width="*" Header="Bid" Binding="{Binding Ask}" Foreground="Green"/>
+                <DataGridTextColumn Width="*" Header="aSize" Binding="{Binding BSize}" Foreground="#FF5252"/>
+                <DataGridTextColumn Width="*" Header="bSize" Binding="{Binding ASize}" Foreground="Green"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</controls:MetroWindow>
+

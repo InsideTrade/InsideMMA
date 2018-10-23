@@ -1,0 +1,173 @@
+﻿<controls:MetroWindow x:Class="Inside_MMA.Views.NewStopOrder"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mvvmSolution="clr-namespace:Inside_MMA"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+        BorderBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="1"
+        Background="{DynamicResource WindowBackgroundBrush}"
+        dialogs:DialogParticipation.Register="{Binding}"
+        mc:Ignorable="d"
+        Title="New StopOrder" SizeToContent="Height" Width="300" SaveWindowPosition="True">
+    <StackPanel CanVerticallyScroll="True">
+        <StackPanel Margin="20 10 20 10">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Client: " />
+                <TextBlock x:Name="Client" Text="{Binding Client, Mode=TwoWay}" VerticalAlignment="Center"></TextBlock>
+            </StackPanel>
+            <Label Content="Board" />
+            <TextBox x:Name="Board" Margin="0 0 0 10" TextChanged="Board_OnTextChanged">
+                <TextBox.Text>
+                    <Binding Path="Board" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <mvvmSolution:BoardExistsValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <Label Content="Seccode" />
+            <TextBox x:Name="Seccode" Margin="0 0 0 10">
+                <TextBox.Text>
+                    <Binding Path="Seccode" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <mvvmSolution:SeccodeExistsValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <Label Content="Buy/sell" />
+            <ComboBox x:Name="BuySell" SelectedValue="{Binding BuySell, Mode=OneWayToSource}" SelectedValuePath="Content" Margin="0 0 0 10">
+                <ComboBoxItem>B</ComboBoxItem>
+                <ComboBoxItem>S</ComboBoxItem>
+            </ComboBox>
+            <CheckBox Content="Smart stoporder" Margin="0 0 0 5" IsChecked="{Binding IsSmartStoporder, Mode=TwoWay}"></CheckBox>
+            <CheckBox Margin="0 5 0 10" IsChecked="{Binding KeepOpen}">Keep open</CheckBox>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <CheckBox IsChecked="{Binding O}" Grid.ColumnSpan="2">O</CheckBox>
+                <CheckBox Grid.Column="1" IsChecked="{Binding S}">S</CheckBox>
+                <CheckBox Grid.Column="2" IsChecked="{Binding T}">T</CheckBox>
+                <CheckBox Grid.Column="3" IsChecked="{Binding B}">B</CheckBox>
+            </Grid>
+        </StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Expander x:Name="StopLossExpander" Header="Stop-Loss" >
+                <GroupBox>
+                    <StackPanel>
+                        <Label Content="Activation price" />
+                        <TextBox x:Name="StopLossActivationPrice" Margin="0 0 0 10" TextChanged="OnTextChanged">
+                            <TextBox.Text>
+                                <Binding Path="StopLossActivationPrice" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <Label Content="Order price" />
+                        <CheckBox x:Name="StopLossByMarket" IsChecked="{Binding StopLossByMarket, Mode=OneWayToSource, FallbackValue=True}" Click="StopLossByMarket_OnChecked">By market</CheckBox>
+                        <TextBox x:Name="StopLossOrderPrice" Margin="0 0 0 10" TextChanged="OnTextChanged" controls:VisibilityHelper.IsCollapsed="{Binding Path=IsChecked, ElementName=StopLossByMarket}">
+                            <TextBox.Text>
+                                <Binding Path="StopLossOrderPrice" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged">
+
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <Label Content="Quantity" />
+                        <TextBox x:Name="StopLossQuantity" TextChanged="OnTextChanged" Margin="0 0 0 10">
+                            <TextBox.Text>
+                                <Binding Path="StopLossQuantity" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged">
+
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <CheckBox IsChecked="{Binding StopLossUseCredit, Mode=OneWayToSource}">Use credit</CheckBox>
+                        <Label Content="Guard time" />
+                        <TextBox x:Name="StopLossGuardTime" TextChanged="OnTextChanged" Margin="0 0 0 10">
+                            <TextBox.Text>
+                                <Binding Path="StopLossGuardTime" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged">
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
+                </GroupBox>
+            </Expander>
+            <Expander Grid.Column="1" Header="Take-Profit" HorizontalAlignment="Stretch">
+                <GroupBox>
+                    <StackPanel>
+                        <Label Content="Activation price" />
+                        <TextBox x:Name="TakeProfitActivationPrice" Margin="0 0 0 10" TextChanged="OnTextChangedTP">
+                            <TextBox.Text>
+                                <Binding Path="TakeProfitActivationPrice" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged">
+
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <Label Content="Quantity" />
+                        <TextBox x:Name="TakeProfitQuantity" Margin="0 0 0 10" TextChanged="OnTextChangedTP">
+                            <TextBox.Text>
+                                <Binding Path="TakeProfitQuantity" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged">
+
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <CheckBox x:Name="TakeProfitByMarket" IsChecked="{Binding TakeProfitUseCredit, Mode=OneWayToSource}">Use credit</CheckBox>
+                        <Label Content="Guard time" />
+                        <TextBox x:Name="TakeProfitGuardTime"  Margin="0 0 0 10" TextChanged="OnTextChangedTP">
+                            <TextBox.Text>
+                                <Binding Path="TakeProfitGuardTime" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged">
+
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <Label Content="Correction" />
+                        <TextBox x:Name="TakeProfitCorrection" Margin="0 0 0 10" TextChanged="OnTextChangedTP">
+                            <TextBox.Text>
+                                <Binding Path="TakeProfitCorrection" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged">
+
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <Label Content="Spread" />
+                        <TextBox x:Name="TakeProfitSpread" Margin="0 0 0 10" TextChanged="OnTextChangedTP">
+                            <TextBox.Text>
+                                <Binding Path="TakeProfitSpread" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged">
+
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
+                </GroupBox>
+            </Expander>
+        </Grid>
+        <Button Command="{Binding ConfirmCommand}" Content="Confirm">
+            <Button.Style>
+                <Style TargetType="Button" BasedOn="{StaticResource AccentedSquareButtonStyle}">
+                    <Setter Property="IsEnabled" Value="False"/>
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Board}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Seccode}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=StopLossActivationPrice}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=StopLossOrderPrice}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=StopLossQuantity}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=StopLossGuardTime}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="IsEnabled" Value="True"/>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+    </StackPanel>
+</controls:MetroWindow>
