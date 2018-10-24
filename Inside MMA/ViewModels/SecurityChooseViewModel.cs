@@ -17,6 +17,7 @@ namespace Inside_MMA.ViewModels
     {
         public Action CloseAction { get; set; }
         public bool ResultOk;
+        private string _board = "TQBR";
         public string Board
         {
             get
@@ -30,7 +31,7 @@ namespace Inside_MMA.ViewModels
                 OnPropertyChanged();
             }
         }
-        private string _board = "TQBR";
+        private string _seccode = "GAZP";
         public string Seccode
         {
             get
@@ -44,7 +45,16 @@ namespace Inside_MMA.ViewModels
                 OnPropertyChanged();
             }
         }
-        private string _seccode = "GAZP";
+        private string _seccodeSecond = "SBER";
+        public string SeccodeSecond
+        {
+            get => _seccodeSecond;
+            set
+            {
+                _seccodeSecond = value;
+                OnPropertyChanged();
+            }
+        }
         public string Window { get; set; }
         public ICommand OkCommand { get; set; }
 

@@ -10,5 +10,6 @@ namespace Inside_MMA.Models
     {
         public int Quantity { get; set; }
         public List<TradeItem> Data { get; set; }
+        public List<Tick> DataTick { get; set; }
     }
 }

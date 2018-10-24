@@ -76,10 +76,18 @@ namespace Inside_MMA.Views
 
         private void ClearFilters(object sender, RoutedEventArgs e)
         {
-            SelectSizeTextBox.Text = "";
-            SelectPriceTextBox.Text = "";
             IsSelecting.IsChecked = false;
             IsSelectingPrice.IsChecked = false;
+            IsFiltering.IsChecked = false;
+            IsFilteringTime.IsChecked = false;           
+            HideSizeFilter.IsChecked = false;
+            MiOnlyCheckBox.IsChecked = false;
+            All.IsChecked = true;
+        }
+
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = "0123456789 ,".IndexOf(e.Text) < 0;
         }
     }
 }

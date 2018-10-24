@@ -31,6 +31,8 @@ namespace Inside_MMA.Models.Filters
         private int _minEatenSize = 1000;
         private bool _filtersApplied;
         private int _eatenSize = 2000;
+        private string _hideSize;
+        private bool _isHideSize;
 
         public AllTradesFilter()
         {
@@ -57,6 +59,8 @@ namespace Inside_MMA.Models.Filters
             MinEatenSize = filter.MinEatenSize;
             MinOiDelta = filter.MinOiDelta;
             EatenSize = filter.EatenSize;
+            HideSize = filter.HideSize;
+            IsHideSize = filter.IsHideSize;
         }
 
         [JsonIgnore]
@@ -341,6 +345,36 @@ namespace Inside_MMA.Models.Filters
             }
         }
 
+        public string HideSize
+        {
+            get => _hideSize;
+            set
+            {
+                _hideSize = value;
+                OnPropertyChangedAndCheck();
+            }
+        }
+
+        public bool IsHideSize
+        {
+            get { return _isHideSize; }
+            set
+            {
+                if (value == _isHideSize) return;
+                _isHideSize = value;
+                OnPropertyChangedAndCheck();
+
+                if (Items == null) return;
+                Items.Filter -= HideSizeFilter;
+
+                if (_isHideSize)
+                    Items.Filter += HideSizeFilter;
+                else
+                    Items.Filter -= HideSizeFilter;
+            }
+        }
+
+
         private void PriceSelect(object sender, FilterEventArgs e)
         {
             var src = e.Item as TradeItem;
@@ -354,7 +388,7 @@ namespace Inside_MMA.Models.Filters
         {
             var src = e.Item as TradeItem;
             if (src == null)
-                e.Accepted = false;
+                e.Accepted = false;           
             else if (src.Quantity < _filterSize)
                 e.Accepted = false;
         }
@@ -413,12 +447,34 @@ namespace Inside_MMA.Models.Filters
                 e.Accepted = false;
         }
 
+        private void HideSizeFilter(object sender, FilterEventArgs e)
+        {
+            try
+            {
+                var src = e.Item as TradeItem;
+                int[] arr = _hideSize.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
+                if (src == null)
+                    e.Accepted = false;
+                //else if (src.Quantity == arr[])
+                //    e.Accepted = false;
+                for (int i = 0; i < arr.Count(); i++)
+                {
+                    if (src.Quantity == arr[i])
+                        e.Accepted = false;
+                }
+            }
+            catch(Exception)
+            {
+
+            }
+        }
+        
         /// <summary>
         /// Check if any filter checkbox or 'Show all' radio button are checked.
         /// </summary>
         private void CheckIfFiltersApplied()
         {
-            FiltersApplied = !ShowAll || IsSizeFilterActive || IsSelectingPrice || IsSelectingSize || IsTimeFilterActive || IsMiOnly;
+            FiltersApplied = !ShowAll || IsSizeFilterActive || IsSelectingPrice || IsSelectingSize || IsTimeFilterActive || IsMiOnly || IsHideSize;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

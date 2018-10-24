@@ -31,6 +31,31 @@ namespace Inside_MMA.ViewModels
 {
     internal class MainWindowViewModel : INotifyPropertyChanged
     {
+        //Change background of label
+        private string _statusState;
+        
+        public string StatusState
+        {
+            get { return _statusState; }
+            set
+            {
+                _statusState = value;
+                OnPropertyChanged("StatusState");
+            }
+        }
+
+        private string _statusStateColor;
+
+        public string StatusStateColor
+        {
+            get { return _statusStateColor; }
+            set
+            {
+                _statusStateColor = value;
+                OnPropertyChanged("StatusStateColor");
+            }            
+        }
+
         public static WindowAvailabilityManager WindowAvailabilityManager { get; set; } = new WindowAvailabilityManager();
         public double LogLevel
         {
@@ -88,16 +113,16 @@ namespace Inside_MMA.ViewModels
         public string Port { get; set; }
 
         //Connection status string
-        private string _status;
-        public string Status
-        {
-            get { return _status; }
-            set
-            {
-                _status = value;
-                OnPropertyChanged();
-            }
-        }
+        ////private string _status;
+        ////public string Status
+        ////{
+        ////    get { return _status; }
+        ////    set
+        ////    {
+        ////        _status = value;
+        ////        OnPropertyChanged();
+        ////    }
+        ////}
 
         //license exp date textblock
         private string _licenseExpDate;
@@ -255,7 +280,9 @@ namespace Inside_MMA.ViewModels
             SleepCommand = new Command(arg => SelfSleep());
             SaveWorkspaceCommand = new Command(arg => SaveWorkspace());
             LoadWorkspaceCommand = new Command(arg => LoadWorkspace());
-            Status = "Status: Disconnected";
+            //Status = "Status: ";
+            StatusState = "Offline";
+            StatusStateColor = "Red";
             //get watchlists collection and initialize watcher to monitor changes in the watchlists' folder
             GetWatchlists();
             InitializeWatcher();
@@ -660,7 +687,9 @@ namespace Inside_MMA.ViewModels
             var status = (ServerStatus) _statusXml.Deserialize(new StringReader(data));
             if (status.Recover == "true")
             {
-                Status = "Status: Reconnecting...";
+               // Status = "Status: ";
+                StatusState = "Reconnecting...";
+                StatusStateColor = "GreenYellow";
                 IsReconnecting = true;
                 Animate = false;
                 return;
@@ -675,7 +704,9 @@ namespace Inside_MMA.ViewModels
                 }
                 MenuItemConnectCommand = new Command(arg => Show_LoginForm()); //set command to open LoginForm
                 MenuItemConnectText = "Connect"; //change text
-                Status = "Status: Disconnected"; //change status string
+                //Status = "Status: "; //change status string
+                StatusState = "Offline";
+                StatusStateColor = "Red";
                 
                 //_dialogCoordinator.ShowMessageAsync(this, "Connection status", "Connection lost");
                 //disable menu buttons
@@ -704,7 +735,9 @@ namespace Inside_MMA.ViewModels
             else
             {
                 MenuItemConnectCommand = new Command(arg => Disconnect()); //set command to disconnect
-                Status = "Status: Connected"; //change text
+               // Status = "Status: "; //change text
+                StatusState = "Online";
+                StatusStateColor = "Green";
                 MenuItemConnectText = "Disconnect"; //change status string
                 //enable menu buttons
                 InfoEnabled = true;
@@ -881,7 +914,9 @@ namespace Inside_MMA.ViewModels
                 }
             }
             TXmlConnector.ConnectorSendCommand(command);
-            Status = "Status: Connecting..."; //set status string
+            //Status = "Status: "; //set status string
+            StatusState = "Connecting";
+            StatusStateColor = "GreenYellow";
             MenuItemConnectEnabled = false; //disable connect/disconnect button until status is changed
             IsActive = true;
         }

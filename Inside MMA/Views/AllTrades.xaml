@@ -113,14 +113,21 @@
     </i:Interaction.Triggers>
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-            <Rectangle x:Name="IsCustomizedIcon" Visibility="{Binding Filter.FiltersApplied, Converter={StaticResource BoolToVis}}" Width="15" Height="15" Fill="White">
+            <!--<Rectangle x:Name="IsCustomizedIcon" Visibility="{Binding Filter.FiltersApplied, Converter={StaticResource BoolToVis}}" Width="15" Height="15" Fill="White">
                 <Rectangle.OpacityMask>
                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_tools}"/>
                 </Rectangle.OpacityMask>
-            </Rectangle>
+            </Rectangle>-->
+            <ToggleButton ToolTip="Disable all filters" Click="ClearFilters" Visibility="{Binding Filter.FiltersApplied, Converter={StaticResource BoolToVis}}">
+                <Rectangle Width="15" Height="15" Fill="White" >
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_filter_off}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </ToggleButton>
             <ToggleButton Width="30" IsChecked="{Binding IsAnchorEnabled}"
-              Height="30"
-              Style="{DynamicResource MetroCircleToggleButtonStyle}">
+                          Height="30"
+                          Style="{DynamicResource MetroCircleToggleButtonStyle}">
                 <Rectangle Width="15" Height="15" 
                            Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}">
                     <Rectangle.OpacityMask>
@@ -135,7 +142,6 @@
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
-            
             <!--<Button Width="30" Command="{Binding RefreshCommand}" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0">
                 <Rectangle Width="15" Height="15" Fill="White">
                     <Rectangle.OpacityMask>
@@ -169,6 +175,9 @@
                             <RowDefinition/>
                             <RowDefinition/>
                             <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Column="0" Grid.Row="0" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="Filter time:"/></TextBlock>
                         <TextBlock Grid.Column="0" Grid.Row="1" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="Filter buy/sell:"/></TextBlock>
@@ -179,8 +188,12 @@
                         <TextBlock Grid.Column="0" Grid.Row="6" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="Min eaten size:"/></TextBlock>
                         <TextBlock Grid.Column="0" Grid.Row="7" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center" ><Run Text="Eaten size:"/></TextBlock>
                         <TextBlock Grid.Column="0" Grid.Row="8" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center" Visibility="{Binding Source={x:Reference DummyElement}, Path=DataContext.Board, Converter={StaticResource ShowOpenInterest}}"><Run Text="Min OI delta:"/></TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="9" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="HideSize:"/></TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="10" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="Amount:"/></TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="11" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="Amount MI:"/></TextBlock>
                         <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" Margin="5 5 5 5">
                             <controls:TimePicker x:Name="FromPicker" SelectedTime="{Binding Filter.FromTime}" PickerVisibility="All" controls:TextBoxHelper.Watermark="From:"  IsEnabled="{Binding IsChecked, ElementName=IsFilteringTime}"/>
+                            <Label/>
                             <controls:TimePicker x:Name="ToPicker" SelectedTime="{Binding Filter.ToTime}" PickerVisibility="All" controls:TextBoxHelper.Watermark="To:" IsEnabled="{Binding IsChecked, ElementName=IsFilteringTime}"/>
                             <CheckBox x:Name="IsFilteringTime" IsChecked="{Binding Filter.IsTimeFilterActive}" Margin="5"/>
                         </StackPanel>
@@ -288,6 +301,11 @@
                         <controls:NumericUpDown x:Name="MinEatenSize" Margin="5" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" Minimum="0" Interval="10" Value="{Binding Filter.MinEatenSize, UpdateSourceTrigger=PropertyChanged}"></controls:NumericUpDown>
                         <controls:NumericUpDown x:Name="EatenSize" Margin="5" Grid.Column="1" Grid.Row="7" HorizontalAlignment="Left" Minimum="0" Value="{Binding Filter.EatenSize}"></controls:NumericUpDown>
                         <controls:NumericUpDown x:Name="MinOIDelta" Margin="5" Grid.Column="1" Grid.Row="8" HorizontalAlignment="Left" Minimum="0" Value="{Binding Filter.MinOiDelta}" Visibility="{Binding Source={x:Reference DummyElement}, Path=DataContext.Board, Converter={StaticResource ShowOpenInterest}}"></controls:NumericUpDown>
+                        <TextBlock Grid.Column="1" Grid.Row="10" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="{Binding Amount}"/></TextBlock>
+                        <TextBlock Grid.Column="1" Grid.Row="11" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="{Binding AmountMI}"/></TextBlock>
+                        <!--<Button Margin="5" Visibility="{Binding Filter.FiltersApplied, Converter={StaticResource BoolToVis}}" Content="Disable Filters" Click="ClearFilters" Grid.Column="1" Grid.Row="13" HorizontalAlignment="Left" VerticalAlignment="Center"/>-->
+                        <TextBox PreviewTextInput="TextBox_PreviewTextInput" IsHitTestVisible="{Binding IsChecked, ElementName=IsHideSize}" Text="{Binding Filter.HideSize, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="9" Width="346" HorizontalAlignment="Left" Margin="5,5,0,5"/>
+                        <CheckBox x:Name="HideSizeFilter" Grid.Column="1" Grid.Row="9" Margin="356,0,-356.2,0" IsChecked="{Binding Filter.IsHideSize}"/>
                     </Grid>
                 </ScrollViewer>
             </Expander>

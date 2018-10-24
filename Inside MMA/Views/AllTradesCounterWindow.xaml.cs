@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Inside_MMA.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -30,12 +32,14 @@ namespace Inside_MMA.Views
 
         private void Expander_OnMouseLeave(object sender, MouseEventArgs e)
         {
-            Expander.IsExpanded = false;
+            Expander.IsExpanded = false;            
+            
         }
 
         ~AllTradesCounterWindow()
         {
             Debug.WriteLine("Counter disposed");
         }
+
     }
 }

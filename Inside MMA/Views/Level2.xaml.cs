@@ -25,6 +25,7 @@ namespace Inside_MMA.Views
         private bool _firstBoot;
         private Visibility _visibility = Visibility.Visible;
 
+
         public Visibility GridVisibility
         {
             get

@@ -63,7 +63,17 @@ namespace Inside_MMA.DataHandlers
                 OnPropertyChanged();
             }
         }
-
+        private RangeObservableCollection<Tick> _tradeItemsLimit = new RangeObservableCollection<Tick>();
+        public RangeObservableCollection<Tick> TradeItemsLimit
+        {
+            get => _tradeItemsLimit;
+            set
+            {
+                if (Equals(value, _tradeItemsLimit)) return;
+                _tradeItemsLimit = value;
+                OnPropertyChanged();
+            }
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -236,6 +246,7 @@ namespace Inside_MMA.DataHandlers
         {
             //add ticks to ticks collection for this instument
             tickSub.Ticks.AddRange(currentTicks);
+            tickSub.TradeItemsLimit.AddRange(currentTicks);
             ////populate simple ticks observable collection
             //currentTicks.ForEach(ct => _dispatcher.BeginInvoke(new Action(() => tickSub.SimpleTicks.Insert(0, ct)), DispatcherPriority.Background));
             //send data to all windows with corresponding instrument opened

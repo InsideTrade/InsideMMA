@@ -26,15 +26,19 @@ namespace Inside_MMA.Views
             {
                 System.Diagnostics.Process.Start(e.Uri.ToString());
             };
+            BottomLink.RequestNavigate += (sender, e) =>
+            {
+                System.Diagnostics.Process.Start(e.Uri.ToString());
+            };
             Loaded += OnLoaded;
-            
+
             var serializer = new BinaryFormatter();
             var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"/Inside MMA/settings/user";
             try
             {
                 using (var file = File.Open(path, FileMode.Open))
                 {
-                    var data = (UserCredentials) serializer.Deserialize(file);
+                    var data = (UserCredentials)serializer.Deserialize(file);
                     Login.Text =
                         Encoding.UTF8.GetString(ProtectedData.Unprotect(data.Login, data.Entropy,
                             DataProtectionScope.CurrentUser));
@@ -54,7 +58,7 @@ namespace Inside_MMA.Views
             ShowOverlay();
             ProgressRing.IsActive = true;
             Application.Current.Dispatcher.InvokeAsync(
-                () => ((InsideUserViewModel) DataContext).Connect(this, ProgressRing), DispatcherPriority.Background);
+                () => ((InsideUserViewModel)DataContext).Connect(this, ProgressRing), DispatcherPriority.Background);
         }
 
         private void PasswordBox_OnPasswordChanged(object sender, RoutedEventArgs e)

@@ -9,9 +9,16 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:viewModels="clr-namespace:Inside_MMA.ViewModels"
         mc:Ignorable="d"
-        Title="{Binding Seccode, StringFormat='MI {0}'}" Height="400" Width="500">
+        Title="{Binding SeccodeTitle}" Height="400" Width="500">
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
+            <Button ToolTip="Clear the table" Command="{Binding ClearData}">
+                <Rectangle Width="15" Height="15" Fill="White">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_counter_clear}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
             <ToggleButton Width="30" IsChecked="{Binding IsAnchorEnabled}" controls:VisibilityHelper.IsCollapsed="{Binding AnchorCollapsed}"
               Height="30"
               Style="{DynamicResource MetroCircleToggleButtonStyle}">
@@ -46,7 +53,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.Resources>
-            <CollectionViewSource x:Key="Source" IsLiveSortingRequested="True" Source="{Binding AllTradesCounters, Mode=OneWay}">
+            <CollectionViewSource x:Key="Source" IsLiveSortingRequested="True" Source="{Binding AllTradesCountersCollection, Mode=OneWay, NotifyOnSourceUpdated=True}" IsLiveFilteringRequested="True">
                 <CollectionViewSource.SortDescriptions>
                     <componentModel:SortDescription PropertyName="Quantity" Direction="Ascending"/>
                 </CollectionViewSource.SortDescriptions>
@@ -54,7 +61,6 @@
         </Grid.Resources>
         <Canvas x:Name="Canvas" Height="{Binding ActualHeight, ElementName=Expander}" Background="{DynamicResource WindowBackgroundBrush}" ZIndex="100">
             <Expander x:Name="Expander" ExpandDirection="Down" Width="{Binding ActualWidth, ElementName=Canvas}" Background="{DynamicResource WindowBackgroundBrush}" MouseLeave="Expander_OnMouseLeave" >
-
                 <StackPanel Width="{Binding ActualWidth, ElementName=Canvas}">
                     <Button Margin="5" HorizontalAlignment="Left" Command="{Binding BarChartCommand}" Content="bar chart">
                         <Button.Style>
@@ -69,16 +75,19 @@
                     </Button>
                     <Button Margin="5"  HorizontalAlignment="Left" Command="{Binding ClearData}">clear</Button>
                     <StackPanel Orientation="Horizontal">
-                        <Label VerticalAlignment="Center">Filter time:</Label>
+                        <Label VerticalAlignment="Center" Width="102">Filter time:</Label>
                         <controls:TimePicker x:Name="Filter" IsEnabled="{Binding ElementName=CheckFilter, Path=IsChecked}" Margin="5" HorizontalAlignment="Left" PickerVisibility="All" SelectedTime="{Binding TimeFilterFrom}" controls:TextBoxHelper.Watermark="From:"/>
                         <controls:TimePicker x:Name="Filter2" IsEnabled="{Binding ElementName=CheckFilter, Path=IsChecked}" Margin="5" HorizontalAlignment="Left" PickerVisibility="All" SelectedTime="{Binding TimeFilterTo}" controls:TextBoxHelper.Watermark="To:"/>
                         <CheckBox x:Name="CheckFilter" IsChecked="{Binding IsFiltering}"></CheckBox>
                     </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Only flat balances:" VerticalAlignment="Center"/>
+                        <CheckBox x:Name ="flatBalanceFilter" IsChecked="{Binding IsFlatBalanceFiltering, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
                 </StackPanel>
-
             </Expander>
         </Canvas>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Source={StaticResource Source}}" GridLinesVisibility="All" IsReadOnly="True" SelectionMode="Extended" SelectionUnit="FullRow" SelectedItem="{Binding SelectedItem}" AutoGenerateColumns="False">
+        <DataGrid Name="myGrid" Grid.Row="1" ItemsSource="{Binding AllTradesCounterCollection}" GridLinesVisibility="All" IsReadOnly="True" SelectionMode="Extended" SelectionUnit="FullRow" SelectedItem="{Binding SelectedItem}" AutoGenerateColumns="False">
             <i:Interaction.Behaviors>
                 <viewModels:DataGridSelectedItemsBlendBehavior SelectedItems="{Binding SelectedItems}" />
             </i:Interaction.Behaviors>
@@ -111,6 +120,8 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn FontSize="13" Header="Balance" FontWeight="Bold"
                                     Binding="{Binding Balance}" Width="100" />
+                <DataGridTextColumn FontSize="13" Header="%" FontWeight="Bold"
+                                    Binding="{Binding Percent}" Width="40"/>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>

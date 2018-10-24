@@ -96,7 +96,7 @@ namespace Inside_MMA.ViewModels
             
         }
         
-        public AllTradesCandlestickViewModel(string board, string seccode, List<DataForCandlestick> data)
+        public AllTradesCandlestickViewModel(string board, string seccode, List<DataForCandlestick> data, bool lmt = false)
         {
             Closing = new Command(arg => WindowClosing());
             Title = $"Size selector {seccode}: {string.Join(", ", data.Select(item => item.Quantity))}";
@@ -108,12 +108,25 @@ namespace Inside_MMA.ViewModels
 
             foreach (var dataForCandlestick in data)
             {
-                foreach (var tradeItem in dataForCandlestick.Data)
+                if (!lmt)
                 {
-                    if (tradeItem.Buysell == "B")
-                        BuySeries.Append(DateTime.Parse(tradeItem.Time), tradeItem.Price);
-                    else
-                        SellSeries.Append(DateTime.Parse(tradeItem.Time), tradeItem.Price);
+                    foreach (var tradeItem in dataForCandlestick.Data)
+                    {
+                        if (tradeItem.Buysell == "B")
+                            BuySeries.Append(DateTime.Parse(tradeItem.Time), tradeItem.Price);
+                        else
+                            SellSeries.Append(DateTime.Parse(tradeItem.Time), tradeItem.Price);
+                    }
+                }
+                else
+                {
+                    foreach (var tradeItem in dataForCandlestick.DataTick)
+                    {
+                        if (tradeItem.Buysell == "B")
+                            BuySeries.Append(DateTime.Parse(tradeItem.Tradetime), tradeItem.Price);
+                        else
+                            SellSeries.Append(DateTime.Parse(tradeItem.Tradetime), tradeItem.Price);
+                    }
                 }
             }
             

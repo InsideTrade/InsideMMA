@@ -82,7 +82,7 @@ namespace Inside_MMA.ViewModels
                         break;
                 }
                 _server = value;
-                OnPropertyChanged();
+                OnPropertyChanged(); 
                 Settings.Default.Save();
                 
             }
@@ -107,10 +107,10 @@ namespace Inside_MMA.ViewModels
 
         public ICommand ConnectCommand { get; set; }
         public LoginFormViewModel()
-        {
+        {            
             ConnectCommand = new Command(Connect);
             GetLogin();
-            Server = Settings.Default.Server ?? "Server ru1";
+            Server = Settings.Default.Server == "" ? "Server ru1" : Settings.Default.Server;
         }
 
         private void Connect(object parameter)

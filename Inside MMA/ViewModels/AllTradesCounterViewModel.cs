@@ -21,6 +21,7 @@ using Inside_MMA;
 using Inside_MMA.Annotations;
 using Inside_MMA.DataHandlers;
 using Inside_MMA.Models;
+using Inside_MMA.Models.Filters;
 using Inside_MMA.ViewModels;
 using Inside_MMA.Views;
 using SciChart.Core.Extensions;
@@ -29,6 +30,7 @@ namespace Inside_MMA.ViewModels
 {
     public class DataGridSelectedItemsBlendBehavior : Behavior<DataGrid>
     {
+        
         public static readonly DependencyProperty SelectedItemProperty =
             DependencyProperty.Register("SelectedItems", typeof(ObservableCollection<AllTradesCounterItem>),
                 typeof(DataGridSelectedItemsBlendBehavior),
@@ -36,7 +38,7 @@ namespace Inside_MMA.ViewModels
                 {
                     BindsTwoWayByDefault = true
                 });
-
+        
         public ObservableCollection<AllTradesCounterItem> SelectedItems
         {
             get
@@ -104,6 +106,14 @@ namespace Inside_MMA.ViewModels
             }
         }
 
+        private ICollectionView _allTradesCounterCollection;
+
+        public ICollectionView AllTradesCounterCollection
+        {
+            get => _allTradesCounterCollection;
+        }
+
+
         public string MenuItemHeader => string.Join(", ", SelectedItems.Select(item => item.Quantity).OrderBy(i => i));
 
         private List<Tick> _ticks = new List<Tick>();
@@ -129,6 +139,7 @@ namespace Inside_MMA.ViewModels
                 OnPropertyChanged();
             }
         }
+        private bool _isFlatBalanceFiltering;
 
         public AllTradesCounterItem SelectedItem
         {
@@ -192,6 +203,27 @@ namespace Inside_MMA.ViewModels
             }
         }
 
+        public bool IsFlatBalanceFiltering
+        {
+            get => _isFlatBalanceFiltering;
+            set
+            {
+                if (value == _isFlatBalanceFiltering) return;
+                _isFlatBalanceFiltering = value;
+                if (_isFlatBalanceFiltering)
+                {
+                    AllTradesCounterCollection.Filter += FlatBalanceFilter;
+                }
+                else
+                    AllTradesCounterCollection.Filter -= FlatBalanceFilter;
+            }
+        }
+        private bool FlatBalanceFilter(object item)
+        {
+            var src = item as AllTradesCounterItem;
+            return src.Delta == 0 && src.Count > 1;
+        }
+       
         private bool _instrumentChanged;
         public ICommand Closing
         {
@@ -199,7 +231,7 @@ namespace Inside_MMA.ViewModels
             set
             {
                 if (Equals(value, _closing)) return;
-                _closing = value;
+                _closing = value;                
                 OnPropertyChanged();
             }
         }
@@ -229,24 +261,42 @@ namespace Inside_MMA.ViewModels
             ShowChart = new Command(arg => ShowCandlestick());
             TickDataHandler.AddTradesCounterSubscribtion(Board, Seccode, HandleTicks);
             SelectedItems.CollectionChanged += (sender, args) => OnPropertyChanged(nameof(MenuItemHeader));
+            _allTradesCounterCollection = CollectionViewSource.GetDefaultView(AllTradesCounters);
+            SeccodeTitle = (lmt) ? $"MI {Seccode} LMT" : $"MI {Seccode}";
         }
+        public string SeccodeTitle { get; set; }
 
         private void ShowCandlestick()
         {
             List<DataForCandlestick> dataForCandlesticks = new List<DataForCandlestick>();
             RangeObservableCollection<TradeItem> tradeItems = TickDataHandler.TickList.First(x => x.Board == Board && x.Seccode == Seccode).TradeItems;
-            foreach (AllTradesCounterItem item in SelectedItems)
+            RangeObservableCollection<Tick> tradeItemsLimit = TickDataHandler.TickList.First(x => x.Board == Board && x.Seccode == Seccode).TradeItemsLimit;
+            if (!_lmt)
             {
-                dataForCandlesticks.Add(new DataForCandlestick()
+                foreach (AllTradesCounterItem item in SelectedItems)
                 {
-                    Quantity = item.Quantity,
-                    Data = tradeItems.Where(t => t.Quantity == item.Quantity).ToList()
-                });
+                    dataForCandlesticks.Add(new DataForCandlestick()
+                    {
+                        Quantity = item.Quantity,
+                        Data = tradeItems.Where(t => t.Quantity == item.Quantity).ToList()
+                    });
+                }
             }
-
+            else
+            {
+                foreach (var item in SelectedItems)
+                {
+                    dataForCandlesticks.Add(new DataForCandlestick()
+                    {
+                        Quantity = item.Quantity,
+                        DataTick = tradeItemsLimit.Where(t => t.Quantity == item.Quantity).ToList()
+                    });
+                }
+            }
+            
             new AllTradesCandlestick
             {
-                DataContext = new AllTradesCandlestickViewModel(Board, Seccode, dataForCandlesticks)
+                DataContext = new AllTradesCandlestickViewModel(Board, Seccode, dataForCandlesticks, _lmt)
             }.Show();
         }
 
@@ -299,7 +349,8 @@ namespace Inside_MMA.ViewModels
                                 Quantity = g.Select(t => t.Quantity).Sum()
                             }).ToList();
             }
-            //var tryGetBalance = list.Count < 10;
+            //var tryGetBalance = list.Count < 10;           
+            count += (double)list.Count / 100;
             foreach (var trade in list)
             {
                 if (_instrumentChanged)
@@ -313,27 +364,50 @@ namespace Inside_MMA.ViewModels
                     var val = AllTradesCounters.First(t => t.Quantity == trade.Quantity);
                     val.Count++;
                     //if B or S - increment, if undefined (MCT) - do nothing
-                    if (trade.Buysell == "B")
-                        val.Buy++;
-                    else if (trade.Buysell == "S")
-                        val.Sell++;
-                    else continue;
+                    if (!_lmt)
+                    {
+                        if (trade.Buysell == "B")
+                            val.Buy++;
+                        else if (trade.Buysell == "S")
+                            val.Sell++;
+                        else continue;
+                    }
+                    else
+                    {
+                        if (trade.Buysell == "B")
+                            val.Sell++;
+                        else if (trade.Buysell == "S")
+                            val.Buy++;
+                        else continue;
+                    }
                     val.Delta = val.Buy - val.Sell;
                     val.Buysell = trade.Buysell;
                     if (val.Buy == val.Sell)
                         val.Balance = GetBalance(val.Quantity).Result;
+
                     _barChartViewModel?.Update(val);
                 }
                 //else we create a new entry
                 else
                 {
-                    var val = new AllTradesCounterItem(trade.Quantity, 1, 0, 0, 0);
+                    var val = new AllTradesCounterItem(trade.Quantity, 1, 0, 0, 0, 0);
                     //if B or S - increment, if undefined (MCT) - do nothing
-                    if (trade.Buysell == "B")
-                        val.Buy++;
-                    else if (trade.Buysell == "S")
-                        val.Sell++;
-                    else continue;
+                    if (!_lmt)
+                    {
+                        if (trade.Buysell == "B")
+                            val.Buy++;
+                        else if (trade.Buysell == "S")
+                            val.Sell++;
+                        else continue;
+                    }
+                    else
+                    {
+                        if (trade.Buysell == "B")
+                            val.Sell++;
+                        else if (trade.Buysell == "S")
+                            val.Buy++;
+                        else continue;
+                    }
                     val.Delta = val.Buy - val.Sell;
                     val.Buysell = trade.Buysell;
                     if (val.Buy == val.Sell)
@@ -342,8 +416,13 @@ namespace Inside_MMA.ViewModels
                     _barChartViewModel?.Update(val);
                 }
             }
+            foreach (var e in AllTradesCounters)
+            {
+                var val = AllTradesCounters.First(t => t.Quantity == e.Quantity);
+                val.Percent = Math.Round(val.Count / count, 2);
+            }
         }
-
+        private double count = 0;
         private string GetMctBuysell(double price)
         {
             var l2Row = Level2DataHandler.Level2List
@@ -474,7 +553,6 @@ namespace Inside_MMA.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
 
         private bool _isAnchorEnabled;
         private ICommand _closing;

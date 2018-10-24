@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Xml.Serialization;
 using Inside_MMA.Annotations;
@@ -29,6 +30,7 @@ namespace Inside_MMA.ViewModels
                 OnPropertyChanged();
             }
         }
+
         private string _seccode;
         private TradesCounterBarChart _barChart;
 
@@ -56,6 +58,7 @@ namespace Inside_MMA.ViewModels
             ClearData = new Command(arg => Clear());
             BarChartCommand = new Command(arg => BarChart());
             Closing = new Command(arg => ClosingCommand());
+            _allTradesCounterCollection = CollectionViewSource.GetDefaultView(AllTradesCounters);
         }
 
         private void ClosingCommand()
@@ -113,7 +116,7 @@ namespace Inside_MMA.ViewModels
                         }
                         else
                         {
-                            var val = new AllTradesCounterItem(item.Quantity, 1, 0, 0, 0);
+                            var val = new AllTradesCounterItem(item.Quantity, 1, 0, 0, 0, 0);
                             if (item.Buysell == "B")
                                 val.Buy++;
                             else
@@ -123,11 +126,59 @@ namespace Inside_MMA.ViewModels
                         }
                     }
                 });
+                var temp = AllTradesCounters.Sum(x => x.Count);
+                foreach(var item in AllTradesCounters)
+                {
+                    item.Percent = Math.Round((double)item.Count / temp, 4) * 100.00;
+                }
                 Seccode += fileName.Split('\\').Last().Replace(".xml", "") + " ";
                 file.Close();
             }
         }
+        
+        private ICollectionView _allTradesCounterCollection;
+        
+        public ICollectionView AllTradesCounterCollection
+        {
+            get => _allTradesCounterCollection;
+        }
 
+        private bool _isFlatBalanceFiltering;
+        
+        public bool IsFlatBalanceFiltering
+        {
+            get => _isFlatBalanceFiltering;
+            set
+            {
+                if (value == _isFlatBalanceFiltering) return;
+                _isFlatBalanceFiltering = value;
+                OnPropertyChanged();
+                if (_isFlatBalanceFiltering)
+                    _allTradesCounterCollection.Filter += FlatBalanceFilter;
+                else
+                    _allTradesCounterCollection.Filter -= FlatBalanceFilter;
+            }
+        }
+        private bool FlatBalanceFilter(object item)
+        {
+            var src = item as AllTradesCounterItem;
+            return src.Delta == 0 && src.Count > 1;
+        }
+
+        //var itemsToDelete = AllTradesCounters.Where(item => item.Delta == 0 || item.Count == 1).ToList();
+        //if (!_isFlatBalanceFiltering)
+        //{
+        //    Application.Current.Dispatcher.Invoke(() => AllTradesCounters.Clear());
+        //    AllTradesCounters = AllTradesCountersCopy;
+        //}
+
+        //else
+        //{
+        //    foreach (var itemToDelete in itemsToDelete)
+        //    {
+        //        Application.Current.Dispatcher.Invoke(() => AllTradesCounters.Remove(itemToDelete));
+        //    }
+        //}
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

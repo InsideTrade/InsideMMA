@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Inside_MMA.Annotations;
 
@@ -11,6 +13,7 @@ namespace Inside_MMA.Models
         private int _buy;
         private int _sell;
         private int _delta;
+        private double _percent;
         private double _balance;
         private string _buysell;
 
@@ -66,6 +69,16 @@ namespace Inside_MMA.Models
                 OnPropertyChanged();
             }
         }
+        public double Percent
+        {
+            get => _percent;
+            set
+            {
+                if (value == _percent) return;
+                _percent = value;
+                OnPropertyChanged();
+            }
+        }
         public double Balance
         {
             get { return _balance; }
@@ -88,20 +101,25 @@ namespace Inside_MMA.Models
             }
         }
 
-
-        public AllTradesCounterItem(int quantity, int count, int buy, int sell, int delta)
+        public AllTradesCounterItem(int quantity, int count, int buy, int sell, int delta, double percent)
         {
             Quantity = quantity;
             Count = count;
             Buy = buy;
             Sell = sell;
             Delta = delta;
+            Percent = percent;
         }
         public event PropertyChangedEventHandler PropertyChanged;
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public static implicit operator ObservableCollection<object>(AllTradesCounterItem v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

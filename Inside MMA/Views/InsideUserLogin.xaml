@@ -8,7 +8,8 @@
         BorderBrush="{DynamicResource AccentColorBrush}"
         BorderThickness="1"
         Background="{DynamicResource WindowBackgroundBrush}"
-        Title="Inside Login" Height="270" Width="250" WindowStartupLocation="CenterScreen">
+        Title="Inside Login" Height="270" Width="250" WindowStartupLocation="CenterScreen"
+                      SizeToContent="Height">
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
             <Button Click="ViewHelp" ToolTip="View help">
@@ -23,24 +24,24 @@
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
     <Grid>
-        <StackPanel Margin="10 10 10 10">
-        <Label Margin="20 0 20 0">Login</Label>
-        <TextBox x:Name="Login" Margin="20 0 20 10">
-            <TextBox.Text>
-                <Binding Path="Login" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged">
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
-        <Label Margin="20 0 20 0">Password</Label>
-        <PasswordBox x:Name="PasswordBox" Margin="20 0 20 10" PasswordChanged="PasswordBox_OnPasswordChanged"/>
-        <TextBlock Margin="20 0 20 0" TextWrapping="Wrap" TextAlignment="Center" controls:VisibilityHelper.IsCollapsed="{Binding LinkCollapsed}">
+        <StackPanel Margin="10 10 10 5">
+            <Label Margin="20 0 20 0">Login</Label>
+            <TextBox x:Name="Login" Margin="20 0 20 10">
+                <TextBox.Text>
+                    <Binding Path="Login" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged">
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <Label Margin="20 0 20 0">Password</Label>
+            <PasswordBox x:Name="PasswordBox" Margin="20 0 20 10" PasswordChanged="PasswordBox_OnPasswordChanged"/>
+            <TextBlock Margin="20 0 20 0" TextWrapping="Wrap" TextAlignment="Center" controls:VisibilityHelper.IsCollapsed="{Binding LinkCollapsed}">
             <Hyperlink x:Name="Link" NavigateUri="http://inside-trade.ru">
                 <Run Text="{Binding LicenseExpired}"></Run>
             </Hyperlink>
-        </TextBlock>
-        <TextBlock Text="{Binding Error}" TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="Red" controls:VisibilityHelper.IsCollapsed="{Binding ErrorCollapsed}"></TextBlock>
-         <Button x:Name="Confirm" Margin="20 5 20 20" IsDefault="True" Command="{Binding ConfirmCommand}" CommandParameter="{Binding ElementName=PasswordBox}" Content="Confirm">
-             <Button.Style>
+            </TextBlock>
+            <TextBlock Text="{Binding Error}" TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="Red" controls:VisibilityHelper.IsCollapsed="{Binding ErrorCollapsed}"></TextBlock>
+            <Button x:Name="Confirm" Margin="20 10 20 5" IsDefault="True" Command="{Binding ConfirmCommand}" CommandParameter="{Binding ElementName=PasswordBox}" Content="Confirm">
+                <Button.Style>
                     <Style TargetType="Button" BasedOn="{StaticResource AccentedSquareButtonStyle}">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Login}" Value="">
@@ -49,8 +50,13 @@
                         </Style.Triggers>
                         <Setter Property="IsEnabled" Value="True"/>
                     </Style>
-             </Button.Style>
+                </Button.Style>
             </Button>
+            <TextBlock Margin="20 5 20 5" TextWrapping="Wrap" TextAlignment="Center">
+            <Hyperlink x:Name="BottomLink" NavigateUri="http://inside-trade.ru">
+                <Run Text="inside-trade.ru"></Run>
+            </Hyperlink>
+            </TextBlock>
         </StackPanel>
         <controls:ProgressRing x:Name="ProgressRing" IsLarge="True"></controls:ProgressRing>
     </Grid>

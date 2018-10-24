@@ -50,24 +50,27 @@ namespace Inside_MMA.ViewModels
             // foreground color
             if (parameter.ToString() == "foreground")
             {
-                // if not eaten - default green / red
-                if (!bool.Parse(values[0].ToString()))
-                    return values[3].ToString() == "B"
-                        ? new SolidColorBrush(Colors.Green)
-                        : new SolidColorBrush(Color.FromRgb(255, 82, 82));
+                //// if not eaten - default green / red
+                //if (!bool.Parse(values[0].ToString()))
+                //    return values[3].ToString() == "B"
+                //        ? new SolidColorBrush(Colors.Green)
+                //        : new SolidColorBrush(Color.FromRgb(255, 82, 82));
 
-                // buysell is undefined
+                //// buysell is undefined
                 if (values[3] == null)
                     return new SolidColorBrush(Colors.White);
 
-                // if highlighted (size >= minEatenSize or size == eatenSize) - set to white
-                return int.Parse(values[1].ToString()) >= int.Parse(values[2].ToString()) ||
-                       int.Parse(values[1].ToString()) == int.Parse(values[3].ToString())
-                    ? new SolidColorBrush(Colors.White)
-                    // else set to green / red
-                    : values[4].ToString() == "B"
+                //// if highlighted (size >= minEatenSize or size == eatenSize) - set to white
+                //return int.Parse(values[1].ToString()) >= int.Parse(values[2].ToString()) ||
+                //       int.Parse(values[1].ToString()) == int.Parse(values[3].ToString()) 
+                //    ? new SolidColorBrush(Colors.White) :
+                //    // else set to green / red                
+                if ((int.Parse(values[1].ToString()) >= int.Parse(values[2].ToString()) || 
+                    int.Parse(values[1].ToString()) == int.Parse(values[3].ToString()))
+                    && bool.Parse(values[0].ToString())) return new SolidColorBrush(Colors.White);
+                    return values[4].ToString() == "B" 
                         ? new SolidColorBrush(Colors.Green)
-                        : new SolidColorBrush(Color.FromRgb(255, 82, 82));
+                        : new SolidColorBrush(Color.FromRgb(255, 82, 82));              
             }
 
             return null;
@@ -171,7 +174,7 @@ namespace Inside_MMA.ViewModels
             }
         }
 
-        private CollectionViewSource _items;
+        private CollectionViewSource _items;        
 
         private ICollectionView _itemsView;
 
@@ -194,6 +197,27 @@ namespace Inside_MMA.ViewModels
             {
                 if (Equals(value, _selectedTrade)) return;
                 _selectedTrade = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _amount;
+        private string _amountMI;
+        public string Amount
+        {
+            get => _amount;
+            set
+            {
+                _amount = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string AmountMI
+        {
+            get => _amountMI;
+            set
+            {
+                _amountMI = value;
                 OnPropertyChanged();
             }
         }
@@ -232,7 +256,16 @@ namespace Inside_MMA.ViewModels
         
         private void UpdateArgs(object state)
         {
-            UpdateWindowArgs(Filter);
+            try
+            {
+                Amount = AllTradesCollection.Count().ToString();
+                AmountMI = AllTradesCollection.Where(t => t.IsMul).Count().ToString();
+                UpdateWindowArgs(Filter);
+            }
+            catch(Exception e)
+            {
+
+            }
         }
 
         private void ShowTradesChart()
@@ -300,6 +333,7 @@ namespace Inside_MMA.ViewModels
         {
             _timer.Dispose();
             AnchoredWindows.RemoveIfContains(this);
+            AllTradesCollection.Clear();            
             UnsubscribeFromWindowEvents();
             CloseWindow();
         }
@@ -321,22 +355,17 @@ namespace Inside_MMA.ViewModels
                 OnPropertyChanged();
                 UpdateWindowBinding(IsAnchorEnabled);
             }
-        }
-
+        }        
         public void SetSecurity(string board, string seccode)
         {
             if (board == Board && seccode == Seccode) return;
             Board = board;
-            Seccode = seccode;
+            Seccode = seccode;                        
             AllTradesCollection = TickDataHandler.AddAllTradesSubsribtion(Board, Seccode);
+            var c = Filter.IsMiOnly;
+            Dispatcher.Invoke(()=> { _items = new CollectionViewSource { Source = AllTradesCollection };  Items = _items.View; Filter = new AllTradesFilter(_items, GetWindowArgs()); });            
             if (Board == "MCT")
                 Level2DataHandler.AddLevel2Subscribtion(Board, Seccode);
-            
-            Dispatcher.Invoke(() =>
-            {
-                _items = new CollectionViewSource { Source = AllTradesCollection };
-                Items = _items.View;
-            });
             UpdateWindowInstrument();
         }
     }

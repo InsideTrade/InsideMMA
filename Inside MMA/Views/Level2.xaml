@@ -15,6 +15,7 @@
         BorderThickness="1"
         Title="{Binding Seccode}" Width="250" SizeToContent="Height">
     <controls:MetroWindow.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
         <viewModels:Leve2SizeComparer x:Key="Leve2SizeComparer"/>
         <viewModels:VisibilityConverter x:Key="VisibilityConverter"/>
         <viewModels:GradientBrushConverter x:Key="GradientBrushConverter"/>
@@ -65,7 +66,7 @@
                         </MultiBinding>
                     </DataTrigger.Binding>
                     <Setter Property="Foreground" Value="DodgerBlue">
-                        </Setter>
+                    </Setter>
                 </DataTrigger>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="Foreground" Value="White"></Setter>
@@ -91,6 +92,11 @@
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
             <!--Visibility="{Binding WindowAvailabilityManager.TradingEnabled, Converter={StaticResource VisibilityConverter}}">-->
+            <Rectangle ToolTip="One-click trade enabled" Width="10" Height="15" Fill="White" Visibility="{Binding IsChecked, ElementName=OneClickTrade, Converter={StaticResource BoolToVis}, UpdateSourceTrigger=PropertyChanged}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_oneClick_on}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
             <Rectangle Width="10" Height="15" Fill="White" Visibility="Collapsed">
                 <Rectangle.OpacityMask>
                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_cursor_default_outline}"/>
