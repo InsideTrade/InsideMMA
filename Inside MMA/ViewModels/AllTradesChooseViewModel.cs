@@ -31,6 +31,8 @@ namespace Inside_MMA.ViewModels
             }
         }
         private string _board = "TQBR";
+
+        private string _seccode = "GAZP";
         public string Seccode
         {
             get
@@ -43,8 +45,7 @@ namespace Inside_MMA.ViewModels
                 _seccode = value;
                 OnPropertyChanged();
             }
-        }
-        private string _seccode = "GAZP";
+        }        
         public ICommand OkCommand { get; set; }
 
         //todo

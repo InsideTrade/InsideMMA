@@ -118,7 +118,7 @@
                     <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_tools}"/>
                 </Rectangle.OpacityMask>
             </Rectangle>-->
-            <ToggleButton ToolTip="Disable all filters" Click="ClearFilters" Visibility="{Binding Filter.FiltersApplied, Converter={StaticResource BoolToVis}}">
+            <ToggleButton ToolTip="Disable all filters" Command="{Binding ClearFiltersCommand}" Visibility="{Binding Filter.FiltersApplied, Converter={StaticResource BoolToVis}}">
                 <Rectangle Width="15" Height="15" Fill="White" >
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_filter_off}"/>
@@ -432,7 +432,7 @@
                               Path=PlacementTarget.DataContext.SelectedTrade.Price, FallbackValue='-'}"
                               HeaderStringFormat="Select price: {0}"
                               Click="ContextMenuPriceSelect"></MenuItem>
-                    <MenuItem Header="Clear filters" Click="ClearFilters"></MenuItem>
+                    <MenuItem Header="Clear filters" Command="{Binding ClearFiltersCommand}"></MenuItem>
                     <MenuItem Header="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, 
                               Path=PlacementTarget.DataContext.SelectedTrade.Quantity, FallbackValue='-'}"
                               HeaderStringFormat="Size selector: {0}" Command="{Binding ShowChart}"></MenuItem>

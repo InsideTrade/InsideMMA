@@ -223,6 +223,8 @@ namespace Inside_MMA.ViewModels
 
         public ICommand ShowChart { get; set; }
 
+        public ICommand ClearFiltersCommand { get; set; }
+
         public AllTradesViewModel(string board, string seccode, Window window, int id = 0)
         {
             Window = window;
@@ -230,6 +232,7 @@ namespace Inside_MMA.ViewModels
             SaveCommand = new Command(arg => Save());
             RefreshCommand = new Command(arg => Refresh());
             ShowChart = new Command(arg => ShowTradesChart());
+            ClearFiltersCommand = new Command(arg => Clear());
             Board = board;
             Seccode = seccode;
             if (Board == "MCT")
@@ -288,6 +291,19 @@ namespace Inside_MMA.ViewModels
             }
         }
 
+        private void Clear()
+        {
+            Filter.IsHiddenSize = false;
+            Filter.IsMiOnly = false;
+            Filter.IsSelectingPrice = false;
+            Filter.IsSelectingSize = false;
+            Filter.IsSizeFilterActive = false;
+            Filter.IsTimeFilterActive = false;
+            Filter.ShowAll = true;
+            Filter.ShowBuy = false;
+            Filter.ShowSell = false;
+        }
+       
         ~AllTradesViewModel()
         {
             Debug.WriteLine("AllTradesViewModel disposed");

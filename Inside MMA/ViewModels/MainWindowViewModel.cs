@@ -40,7 +40,7 @@ namespace Inside_MMA.ViewModels
             set
             {
                 _statusState = value;
-                OnPropertyChanged("StatusState");
+                OnPropertyChanged();
             }
         }
 
@@ -52,7 +52,7 @@ namespace Inside_MMA.ViewModels
             set
             {
                 _statusStateColor = value;
-                OnPropertyChanged("StatusStateColor");
+                OnPropertyChanged();
             }            
         }
 
@@ -110,19 +110,7 @@ namespace Inside_MMA.ViewModels
         public string Password { get; set; }
         //Server settings
         public string Server { get; set; }
-        public string Port { get; set; }
-
-        //Connection status string
-        ////private string _status;
-        ////public string Status
-        ////{
-        ////    get { return _status; }
-        ////    set
-        ////    {
-        ////        _status = value;
-        ////        OnPropertyChanged();
-        ////    }
-        ////}
+        public string Port { get; set; }        
 
         //license exp date textblock
         private string _licenseExpDate;

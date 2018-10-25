@@ -22,9 +22,6 @@ namespace Inside_MMA.Views
     /// </summary>
     public partial class AllTrades
     {
-        private int _filter;
-        private int _select;
-        private double _selectPrice;
         private TimeSpan _from = new TimeSpan(0, 0, 0);
         private TimeSpan _to = new TimeSpan(23, 59, 59);
 
@@ -45,19 +42,6 @@ namespace Inside_MMA.Views
             Expander.IsExpanded = false;
         }
 
-       
-
-        //private void UpdateIsCustomizedIcon()
-        //{
-        //    IsCustomizedIcon.Visibility = IsFiltering.IsChecked == true || IsSelecting.IsChecked == true ||
-        //                                  IsFilteringTime.IsChecked == true || IsSelectingPrice.IsChecked == true ||
-        //                                  Buy.IsChecked == true || Sell.IsChecked == true || MiOnlyCheckBox.IsChecked == true
-        //        ? Visibility.Visible
-        //        : Visibility.Collapsed;
-        //}
-        
-
-
         private void ContextMenuSizeSelect(object sender, RoutedEventArgs e)
         {
             var selectedItem = (TradeItem)DataGridAllTrades.SelectedItem;
@@ -72,17 +56,6 @@ namespace Inside_MMA.Views
             if (selectedItem == null) return;
             IsSelectingPrice.IsChecked = true;
             SelectPriceTextBox.Text = selectedItem.Price.ToString("F");
-        }
-
-        private void ClearFilters(object sender, RoutedEventArgs e)
-        {
-            IsSelecting.IsChecked = false;
-            IsSelectingPrice.IsChecked = false;
-            IsFiltering.IsChecked = false;
-            IsFilteringTime.IsChecked = false;           
-            HideSizeFilter.IsChecked = false;
-            MiOnlyCheckBox.IsChecked = false;
-            All.IsChecked = true;
         }
 
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
