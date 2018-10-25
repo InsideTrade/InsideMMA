@@ -108,7 +108,18 @@ namespace Inside_MMA.ViewModels
 
             foreach (var dataForCandlestick in data)
             {
-                if (!lmt)
+                if (lmt)
+                {
+                    
+                    foreach (var tickItem in dataForCandlestick.DataTick)
+                    {
+                        if (tickItem.Buysell == "B")
+                            BuySeries.Append(DateTime.Parse(tickItem.Tradetime), tickItem.Price);
+                        else
+                            SellSeries.Append(DateTime.Parse(tickItem.Tradetime), tickItem.Price);
+                    }
+                }
+                else
                 {
                     foreach (var tradeItem in dataForCandlestick.Data)
                     {
@@ -116,16 +127,6 @@ namespace Inside_MMA.ViewModels
                             BuySeries.Append(DateTime.Parse(tradeItem.Time), tradeItem.Price);
                         else
                             SellSeries.Append(DateTime.Parse(tradeItem.Time), tradeItem.Price);
-                    }
-                }
-                else
-                {
-                    foreach (var tradeItem in dataForCandlestick.DataTick)
-                    {
-                        if (tradeItem.Buysell == "B")
-                            BuySeries.Append(DateTime.Parse(tradeItem.Tradetime), tradeItem.Price);
-                        else
-                            SellSeries.Append(DateTime.Parse(tradeItem.Tradetime), tradeItem.Price);
                     }
                 }
             }

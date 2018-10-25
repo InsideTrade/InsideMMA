@@ -30,8 +30,9 @@ namespace Inside_MMA.ViewModels
                 OnPropertyChanged();
             }
         }
-
+        
         private string _seccode;
+        private bool _isFlatBalanceFiltering;
         private TradesCounterBarChart _barChart;
 
         public string Seccode
@@ -47,7 +48,7 @@ namespace Inside_MMA.ViewModels
         
         public bool AnchorCollapsed { get; set; } = true;
         public bool LoadCollapsed { get; set; } = false;
-
+        public ICollectionView AllTradesCounterCollection { get; }
         public ICommand LoadCommand { get; set; }
         public ICommand ClearData { get; set; }
         public ICommand BarChartCommand { get; set; }
@@ -58,7 +59,7 @@ namespace Inside_MMA.ViewModels
             ClearData = new Command(arg => Clear());
             BarChartCommand = new Command(arg => BarChart());
             Closing = new Command(arg => ClosingCommand());
-            _allTradesCounterCollection = CollectionViewSource.GetDefaultView(AllTradesCounters);
+            AllTradesCounterCollection = CollectionViewSource.GetDefaultView(AllTradesCounters);
         }
 
         private void ClosingCommand()
@@ -135,16 +136,7 @@ namespace Inside_MMA.ViewModels
                 file.Close();
             }
         }
-        
-        private ICollectionView _allTradesCounterCollection;
-        
-        public ICollectionView AllTradesCounterCollection
-        {
-            get => _allTradesCounterCollection;
-        }
 
-        private bool _isFlatBalanceFiltering;
-        
         public bool IsFlatBalanceFiltering
         {
             get => _isFlatBalanceFiltering;
@@ -154,9 +146,9 @@ namespace Inside_MMA.ViewModels
                 _isFlatBalanceFiltering = value;
                 OnPropertyChanged();
                 if (_isFlatBalanceFiltering)
-                    _allTradesCounterCollection.Filter += FlatBalanceFilter;
+                    AllTradesCounterCollection.Filter += FlatBalanceFilter;
                 else
-                    _allTradesCounterCollection.Filter -= FlatBalanceFilter;
+                    AllTradesCounterCollection.Filter -= FlatBalanceFilter;
             }
         }
         private bool FlatBalanceFilter(object item)
@@ -164,21 +156,7 @@ namespace Inside_MMA.ViewModels
             var src = item as AllTradesCounterItem;
             return src.Delta == 0 && src.Count > 1;
         }
-
-        //var itemsToDelete = AllTradesCounters.Where(item => item.Delta == 0 || item.Count == 1).ToList();
-        //if (!_isFlatBalanceFiltering)
-        //{
-        //    Application.Current.Dispatcher.Invoke(() => AllTradesCounters.Clear());
-        //    AllTradesCounters = AllTradesCountersCopy;
-        //}
-
-        //else
-        //{
-        //    foreach (var itemToDelete in itemsToDelete)
-        //    {
-        //        Application.Current.Dispatcher.Invoke(() => AllTradesCounters.Remove(itemToDelete));
-        //    }
-        //}
+        
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

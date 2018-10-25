@@ -44,17 +44,7 @@ namespace Inside_MMA.ViewModels
                 _seccode = value;
                 OnPropertyChanged();
             }
-        }
-        private string _seccodeSecond = "SBER";
-        public string SeccodeSecond
-        {
-            get => _seccodeSecond;
-            set
-            {
-                _seccodeSecond = value;
-                OnPropertyChanged();
-            }
-        }
+        }        
         public string Window { get; set; }
         public ICommand OkCommand { get; set; }
 

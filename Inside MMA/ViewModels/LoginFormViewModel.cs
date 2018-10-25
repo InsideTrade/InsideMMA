@@ -62,19 +62,11 @@ namespace Inside_MMA.ViewModels
                         _serverAddress = "mmar01-tr02.just2trade.online";
                         Port = "3900";
                         break;
-                    //case "Server eu2":
-                    //    _server = "mmar01-tr02.just2trade.online"; //не демо
-                    //    Port = "3900";
-                    //    break;
                     case "Demo server":
                         Settings.Default.Server = "Demo server";
                         _serverAddress = "tr1-demo5.finam.ru";
                         Port = "3939";
                         break;
-                    //case "Demo usa":
-                    //    _server = "MMADemo.just2trade.online";
-                    //    Port = "13900";
-                    //    break;
                     case "Demo EU":
                         Settings.Default.Server = "Demo EU";
                         _serverAddress = "MMADemo.just2trade.online";
@@ -107,10 +99,10 @@ namespace Inside_MMA.ViewModels
 
         public ICommand ConnectCommand { get; set; }
         public LoginFormViewModel()
-        {            
+        {
+            Server = string.IsNullOrEmpty(Settings.Default.Server) ? "Server ru1" : Settings.Default.Server;
             ConnectCommand = new Command(Connect);
             GetLogin();
-            Server = Settings.Default.Server == "" ? "Server ru1" : Settings.Default.Server;
         }
 
         private void Connect(object parameter)

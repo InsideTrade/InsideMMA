@@ -250,16 +250,9 @@ namespace Inside_MMA.ViewModels
         
         private void UpdateArgs(object state)
         {
-            try
-            {
-                Amount = AllTradesCollection.Count().ToString();
-                AmountMI = AllTradesCollection.Where(t => t.IsMul).Count().ToString();
-                UpdateWindowArgs(Filter);
-            }
-            catch(Exception e)
-            {
-
-            }
+            Amount = AllTradesCollection.Count.ToString();
+            AmountMI = AllTradesCollection.Count(t => t.IsMul).ToString();
+            UpdateWindowArgs(Filter);           
         }
 
         private void ShowTradesChart()

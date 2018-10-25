@@ -116,10 +116,5 @@ namespace Inside_MMA.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        public static implicit operator ObservableCollection<object>(AllTradesCounterItem v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
