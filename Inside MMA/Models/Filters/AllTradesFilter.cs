@@ -62,6 +62,21 @@ namespace Inside_MMA.Models.Filters
             HiddenSize = filter.HiddenSize;
             IsHiddenSize = filter.IsHiddenSize;
         }
+        public void Update()
+        {
+            if (IsTimeFilterActive)
+            {
+                Items.Filter += FromTimeFilter;
+                Items.Filter += ToTimeFilter;
+            }
+            if(ShowBuy) Items.Filter += BuyFilter;
+            if(ShowSell) Items.Filter += SellFilter;
+            if(IsSizeFilterActive) Items.Filter += SizeFilter;
+            if(IsSelectingSize) Items.Filter += SizeSelect;
+            if(IsSelectingPrice) Items.Filter += PriceSelect;
+            if(IsMiOnly) Items.Filter += MiOnlyFilter;            
+            if(IsHiddenSize) Items.Filter += HiddenSizeFilter;                 
+        }
 
         [JsonIgnore]
         public CollectionViewSource Items { get; set; }

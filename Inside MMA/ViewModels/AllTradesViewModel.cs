@@ -49,22 +49,13 @@ namespace Inside_MMA.ViewModels
 
             // foreground color
             if (parameter.ToString() == "foreground")
-            {
-                //// if not eaten - default green / red
-                //if (!bool.Parse(values[0].ToString()))
-                //    return values[3].ToString() == "B"
-                //        ? new SolidColorBrush(Colors.Green)
-                //        : new SolidColorBrush(Color.FromRgb(255, 82, 82));
-
+            {               
                 //// buysell is undefined
                 if (values[3] == null)
                     return new SolidColorBrush(Colors.White);
 
-                //// if highlighted (size >= minEatenSize or size == eatenSize) - set to white
-                //return int.Parse(values[1].ToString()) >= int.Parse(values[2].ToString()) ||
-                //       int.Parse(values[1].ToString()) == int.Parse(values[3].ToString()) 
-                //    ? new SolidColorBrush(Colors.White) :
-                //    // else set to green / red                
+                // if highlighted (size >= minEatenSize or size == eatenSize) - set to white                
+                // else set to green / red                
                 if ((int.Parse(values[1].ToString()) >= int.Parse(values[2].ToString()) || 
                     int.Parse(values[1].ToString()) == int.Parse(values[3].ToString()))
                     && bool.Parse(values[0].ToString())) return new SolidColorBrush(Colors.White);
@@ -276,36 +267,12 @@ namespace Inside_MMA.ViewModels
             new AllTradesCandlestick
             {
                 DataContext = new AllTradesCandlestickViewModel(Board, Seccode, SelectedTrade.Quantity, data)
-            }.Show();
-            //var newWindowThread = new Thread(() =>
-            //    {
-            //        //Create our context, and install it:
-            //        SynchronizationContext.SetSynchronizationContext(
-            //            new DispatcherSynchronizationContext(
-            //                Dispatcher.CurrentDispatcher));
-
-            //        var window = new AllTradesCandlestick();
-            //        var context = new AllTradesCandlestickViewModel(this, Board, Seccode, SelectedTrade.Quantity, data);
-            //        window.DataContext = context;
-            //        // When the window closes, shut down the dispatcher
-            //        window.Closed += (s, e) =>
-            //            Dispatcher.CurrentDispatcher.InvokeShutdown();
-            //        window.Show();
-            //        // Start the Dispatcher Processing
-            //        Dispatcher.Run();
-            //    });
-            //// Set the apartment state
-            //newWindowThread.SetApartmentState(ApartmentState.STA);
-            //// Make the thread a background thread
-            //newWindowThread.IsBackground = true;
-            //// Start the thread
-            //newWindowThread.Start();
+            }.Show();           
         }
 
         private void Refresh()
         {
-            Dispatcher.Invoke(() => AllTradesCollection.Clear());
-            //AllTradesCollection.Add(new TradeItem("1", 100, 1, "about time", "B", ""));
+            Dispatcher.Invoke(() => AllTradesCollection.Clear());            
             TickDataHandler.RefreshSub(Board, Seccode);
         }
 
@@ -332,8 +299,7 @@ namespace Inside_MMA.ViewModels
         public void WindowClosing()
         {
             _timer.Dispose();
-            AnchoredWindows.RemoveIfContains(this);
-            AllTradesCollection.Clear();            
+            AnchoredWindows.RemoveIfContains(this);                 
             UnsubscribeFromWindowEvents();
             CloseWindow();
         }
@@ -360,10 +326,9 @@ namespace Inside_MMA.ViewModels
         {
             if (board == Board && seccode == Seccode) return;
             Board = board;
-            Seccode = seccode;                        
-            AllTradesCollection = TickDataHandler.AddAllTradesSubsribtion(Board, Seccode);
-            var c = Filter.IsMiOnly;
-            Dispatcher.Invoke(()=> { _items = new CollectionViewSource { Source = AllTradesCollection };  Items = _items.View; Filter = new AllTradesFilter(_items, GetWindowArgs()); });            
+            Seccode = seccode;            
+            AllTradesCollection = TickDataHandler.AddAllTradesSubsribtion(Board, Seccode);            
+            Dispatcher.Invoke(()=> { _items = new CollectionViewSource { Source = AllTradesCollection };  Items = _items.View; Filter.Items = _items; Filter.Update(); });            
             if (Board == "MCT")
                 Level2DataHandler.AddLevel2Subscribtion(Board, Seccode);
             UpdateWindowInstrument();
