@@ -31,8 +31,8 @@ namespace Inside_MMA.Models.Filters
         private int _minEatenSize = 1000;
         private bool _filtersApplied;
         private int _eatenSize = 2000;
-        private string _hideSize;
-        private bool _isHideSize;
+        private string _hiddenSize;
+        private bool _isHiddenSize;
 
         public AllTradesFilter()
         {
@@ -59,8 +59,8 @@ namespace Inside_MMA.Models.Filters
             MinEatenSize = filter.MinEatenSize;
             MinOiDelta = filter.MinOiDelta;
             EatenSize = filter.EatenSize;
-            HideSize = filter.HideSize;
-            IsHideSize = filter.IsHideSize;
+            HiddenSize = filter.HiddenSize;
+            IsHiddenSize = filter.IsHiddenSize;
         }
 
         [JsonIgnore]
@@ -345,32 +345,32 @@ namespace Inside_MMA.Models.Filters
             }
         }
 
-        public string HideSize
+        public string HiddenSize
         {
-            get => _hideSize;
+            get => _hiddenSize;
             set
             {
-                _hideSize = value;
+                _hiddenSize = value;
                 OnPropertyChangedAndCheck();
             }
         }
 
-        public bool IsHideSize
+        public bool IsHiddenSize
         {
-            get { return _isHideSize; }
+            get { return _isHiddenSize; }
             set
             {
-                if (value == _isHideSize) return;
-                _isHideSize = value;
+                if (value == _isHiddenSize) return;
+                _isHiddenSize = value;
                 OnPropertyChangedAndCheck();
 
                 if (Items == null) return;
-                Items.Filter -= HideSizeFilter;
+                Items.Filter -= HiddenSizeFilter;
 
-                if (_isHideSize)
-                    Items.Filter += HideSizeFilter;
+                if (_isHiddenSize)
+                    Items.Filter += HiddenSizeFilter;
                 else
-                    Items.Filter -= HideSizeFilter;
+                    Items.Filter -= HiddenSizeFilter;
             }
         }
 
@@ -388,7 +388,7 @@ namespace Inside_MMA.Models.Filters
         {
             var src = e.Item as TradeItem;
             if (src == null)
-                e.Accepted = false;           
+                e.Accepted = false;
             else if (src.Quantity < _filterSize)
                 e.Accepted = false;
         }
@@ -447,34 +447,25 @@ namespace Inside_MMA.Models.Filters
                 e.Accepted = false;
         }
 
-        private void HideSizeFilter(object sender, FilterEventArgs e)
+        private void HiddenSizeFilter(object sender, FilterEventArgs e)
         {
-            try
+            var src = e.Item as TradeItem;
+            int[] arr = _hiddenSize.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
+            if (src == null)
+                e.Accepted = false;
+            for (int i = 0; i < arr.Count(); i++)
             {
-                var src = e.Item as TradeItem;
-                int[] arr = _hideSize.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
-                if (src == null)
+                if (src.Quantity == arr[i])
                     e.Accepted = false;
-                //else if (src.Quantity == arr[])
-                //    e.Accepted = false;
-                for (int i = 0; i < arr.Count(); i++)
-                {
-                    if (src.Quantity == arr[i])
-                        e.Accepted = false;
-                }
-            }
-            catch(Exception)
-            {
-
             }
         }
-        
+
         /// <summary>
         /// Check if any filter checkbox or 'Show all' radio button are checked.
         /// </summary>
         private void CheckIfFiltersApplied()
         {
-            FiltersApplied = !ShowAll || IsSizeFilterActive || IsSelectingPrice || IsSelectingSize || IsTimeFilterActive || IsMiOnly || IsHideSize;
+            FiltersApplied = !ShowAll || IsSizeFilterActive || IsSelectingPrice || IsSelectingSize || IsTimeFilterActive || IsMiOnly || IsHiddenSize;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

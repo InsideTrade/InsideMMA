@@ -188,7 +188,7 @@
                         <TextBlock Grid.Column="0" Grid.Row="6" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="Min eaten size:"/></TextBlock>
                         <TextBlock Grid.Column="0" Grid.Row="7" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center" ><Run Text="Eaten size:"/></TextBlock>
                         <TextBlock Grid.Column="0" Grid.Row="8" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center" Visibility="{Binding Source={x:Reference DummyElement}, Path=DataContext.Board, Converter={StaticResource ShowOpenInterest}}"><Run Text="Min OI delta:"/></TextBlock>
-                        <TextBlock Grid.Column="0" Grid.Row="9" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="HideSize:"/></TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="9" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="HiddenSize:"/></TextBlock>
                         <TextBlock Grid.Column="0" Grid.Row="10" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="Amount:"/></TextBlock>
                         <TextBlock Grid.Column="0" Grid.Row="11" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="Amount MI:"/></TextBlock>
                         <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" Margin="5 5 5 5">
@@ -301,11 +301,12 @@
                         <controls:NumericUpDown x:Name="MinEatenSize" Margin="5" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" Minimum="0" Interval="10" Value="{Binding Filter.MinEatenSize, UpdateSourceTrigger=PropertyChanged}"></controls:NumericUpDown>
                         <controls:NumericUpDown x:Name="EatenSize" Margin="5" Grid.Column="1" Grid.Row="7" HorizontalAlignment="Left" Minimum="0" Value="{Binding Filter.EatenSize}"></controls:NumericUpDown>
                         <controls:NumericUpDown x:Name="MinOIDelta" Margin="5" Grid.Column="1" Grid.Row="8" HorizontalAlignment="Left" Minimum="0" Value="{Binding Filter.MinOiDelta}" Visibility="{Binding Source={x:Reference DummyElement}, Path=DataContext.Board, Converter={StaticResource ShowOpenInterest}}"></controls:NumericUpDown>
+                        <StackPanel Grid.Column="1" Grid.Row="9" Orientation="Horizontal" Margin="0 5 5 5" HorizontalAlignment="Left">
+                            <TextBox PreviewTextInput="TextBox_PreviewTextInput" IsHitTestVisible="{Binding IsChecked, ElementName=IsHiddenSize}" Text="{Binding Filter.HiddenSize, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="9" Width="346" HorizontalAlignment="Left" Margin="5,5,0,5"/>
+                            <CheckBox x:Name="HideSizeFilter" Grid.Column="1" Grid.Row="9" FlowDirection="RightToLeft" HorizontalAlignment="Right" Margin="0 5 5 5" IsChecked="{Binding Filter.IsHiddenSize}"/>
+                        </StackPanel>
                         <TextBlock Grid.Column="1" Grid.Row="10" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="{Binding Amount}"/></TextBlock>
                         <TextBlock Grid.Column="1" Grid.Row="11" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="{Binding AmountMI}"/></TextBlock>
-                        <!--<Button Margin="5" Visibility="{Binding Filter.FiltersApplied, Converter={StaticResource BoolToVis}}" Content="Disable Filters" Click="ClearFilters" Grid.Column="1" Grid.Row="13" HorizontalAlignment="Left" VerticalAlignment="Center"/>-->
-                        <TextBox PreviewTextInput="TextBox_PreviewTextInput" IsHitTestVisible="{Binding IsChecked, ElementName=IsHideSize}" Text="{Binding Filter.HideSize, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="9" Width="346" HorizontalAlignment="Left" Margin="5,5,0,5"/>
-                        <CheckBox x:Name="HideSizeFilter" Grid.Column="1" Grid.Row="9" Margin="356,0,-356.2,0" IsChecked="{Binding Filter.IsHideSize}"/>
                     </Grid>
                 </ScrollViewer>
             </Expander>
