@@ -113,11 +113,6 @@
     </i:Interaction.Triggers>
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-            <!--<Rectangle x:Name="IsCustomizedIcon" Visibility="{Binding Filter.FiltersApplied, Converter={StaticResource BoolToVis}}" Width="15" Height="15" Fill="White">
-                <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_tools}"/>
-                </Rectangle.OpacityMask>
-            </Rectangle>-->
             <ToggleButton ToolTip="Disable all filters" Command="{Binding ClearFiltersCommand}" Visibility="{Binding Filter.FiltersApplied, Converter={StaticResource BoolToVis}}">
                 <Rectangle Width="15" Height="15" Fill="White" >
                     <Rectangle.OpacityMask>
@@ -142,13 +137,6 @@
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
-            <!--<Button Width="30" Command="{Binding RefreshCommand}" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0">
-                <Rectangle Width="15" Height="15" Fill="White">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_refresh}"/>
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-            </Button>-->
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
     <Grid x:Name="MainGrid">
@@ -302,8 +290,8 @@
                         <controls:NumericUpDown x:Name="EatenSize" Margin="5" Grid.Column="1" Grid.Row="7" HorizontalAlignment="Left" Minimum="0" Value="{Binding Filter.EatenSize}"></controls:NumericUpDown>
                         <controls:NumericUpDown x:Name="MinOIDelta" Margin="5" Grid.Column="1" Grid.Row="8" HorizontalAlignment="Left" Minimum="0" Value="{Binding Filter.MinOiDelta}" Visibility="{Binding Source={x:Reference DummyElement}, Path=DataContext.Board, Converter={StaticResource ShowOpenInterest}}"></controls:NumericUpDown>
                         <StackPanel Grid.Column="1" Grid.Row="9" Orientation="Horizontal" Margin="0 5 5 5" HorizontalAlignment="Left">
-                            <TextBox PreviewTextInput="TextBox_PreviewTextInput" IsHitTestVisible="{Binding IsChecked, ElementName=IsHiddenSize}" Text="{Binding Filter.HiddenSize, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="9" Width="346" HorizontalAlignment="Left" Margin="5,5,0,5"/>
-                            <CheckBox x:Name="HideSizeFilter" Grid.Column="1" Grid.Row="9" FlowDirection="RightToLeft" HorizontalAlignment="Right" Margin="0 5 5 5" IsChecked="{Binding Filter.IsHiddenSize}"/>
+                            <TextBox IsEnabled="{Binding IsChecked, ElementName=IsHiddenSize}" Text="{Binding Filter.HiddenSize, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="9" Width="300" HorizontalAlignment="Left" Margin="5,5,0,5"/>
+                            <CheckBox Grid.Column="1" Grid.Row="9" FlowDirection="RightToLeft" HorizontalAlignment="Right" Margin="0 5 5 5" IsChecked="{Binding Filter.IsHiddenSize}"/>
                         </StackPanel>
                         <TextBlock Grid.Column="1" Grid.Row="10" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="{Binding Amount}"/></TextBlock>
                         <TextBlock Grid.Column="1" Grid.Row="11" TextWrapping="WrapWithOverflow" Margin="5" Foreground="White" VerticalAlignment="Center"><Run Text="{Binding AmountMI}"/></TextBlock>

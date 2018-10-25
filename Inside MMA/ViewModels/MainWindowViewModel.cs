@@ -31,15 +31,29 @@ namespace Inside_MMA.ViewModels
 {
     internal class MainWindowViewModel : INotifyPropertyChanged
     {
-        //Change background of label
-        private string _statusState;
-        
-        public string StatusState
+        enum StatusColor
         {
-            get { return _statusState; }
+            Green,
+            GreenYellow,
+            Red
+        }        
+        enum StatusState
+        {
+            Online,
+            Offline,
+            Connecting,
+            Reconnecting
+        }
+        
+        //Change background of label
+        private string _status;
+
+        public string Status
+        {
+            get { return _status; }
             set
             {
-                _statusState = value;
+                _status = value;
                 OnPropertyChanged();
             }
         }
@@ -268,9 +282,8 @@ namespace Inside_MMA.ViewModels
             SleepCommand = new Command(arg => SelfSleep());
             SaveWorkspaceCommand = new Command(arg => SaveWorkspace());
             LoadWorkspaceCommand = new Command(arg => LoadWorkspace());
-            //Status = "Status: ";
-            StatusState = "Offline";
-            StatusStateColor = "Red";
+            Status = StatusState.Offline.ToString();
+            StatusStateColor = StatusColor.Red.ToString();
             //get watchlists collection and initialize watcher to monitor changes in the watchlists' folder
             GetWatchlists();
             InitializeWatcher();
@@ -675,9 +688,8 @@ namespace Inside_MMA.ViewModels
             var status = (ServerStatus) _statusXml.Deserialize(new StringReader(data));
             if (status.Recover == "true")
             {
-               // Status = "Status: ";
-                StatusState = "Reconnecting...";
-                StatusStateColor = "GreenYellow";
+                Status = StatusState.Reconnecting.ToString();
+                StatusStateColor = StatusColor.GreenYellow.ToString();
                 IsReconnecting = true;
                 Animate = false;
                 return;
@@ -692,9 +704,8 @@ namespace Inside_MMA.ViewModels
                 }
                 MenuItemConnectCommand = new Command(arg => Show_LoginForm()); //set command to open LoginForm
                 MenuItemConnectText = "Connect"; //change text
-                //Status = "Status: "; //change status string
-                StatusState = "Offline";
-                StatusStateColor = "Red";
+                Status = StatusState.Offline.ToString();
+                StatusStateColor = StatusColor.Red.ToString();
                 
                 //_dialogCoordinator.ShowMessageAsync(this, "Connection status", "Connection lost");
                 //disable menu buttons
@@ -723,9 +734,8 @@ namespace Inside_MMA.ViewModels
             else
             {
                 MenuItemConnectCommand = new Command(arg => Disconnect()); //set command to disconnect
-               // Status = "Status: "; //change text
-                StatusState = "Online";
-                StatusStateColor = "Green";
+                Status = StatusState.Online.ToString();
+                StatusStateColor = StatusColor.Green.ToString();
                 MenuItemConnectText = "Disconnect"; //change status string
                 //enable menu buttons
                 InfoEnabled = true;
@@ -902,9 +912,8 @@ namespace Inside_MMA.ViewModels
                 }
             }
             TXmlConnector.ConnectorSendCommand(command);
-            //Status = "Status: "; //set status string
-            StatusState = "Connecting";
-            StatusStateColor = "GreenYellow";
+            Status = StatusState.Connecting.ToString();
+            StatusStateColor = StatusColor.GreenYellow.ToString();
             MenuItemConnectEnabled = false; //disable connect/disconnect button until status is changed
             IsActive = true;
         }

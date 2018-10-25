@@ -75,7 +75,7 @@
                     </Button>
                     <Button Margin="5"  HorizontalAlignment="Left" Command="{Binding ClearData}">clear</Button>
                     <StackPanel Orientation="Horizontal">
-                        <Label VerticalAlignment="Center" Width="102">Filter time:</Label>
+                        <Label VerticalAlignment="Center">Filter time:</Label>
                         <controls:TimePicker x:Name="Filter" IsEnabled="{Binding ElementName=CheckFilter, Path=IsChecked}" Margin="5" HorizontalAlignment="Left" PickerVisibility="All" SelectedTime="{Binding TimeFilterFrom}" controls:TextBoxHelper.Watermark="From:"/>
                         <controls:TimePicker x:Name="Filter2" IsEnabled="{Binding ElementName=CheckFilter, Path=IsChecked}" Margin="5" HorizontalAlignment="Left" PickerVisibility="All" SelectedTime="{Binding TimeFilterTo}" controls:TextBoxHelper.Watermark="To:"/>
                         <CheckBox x:Name="CheckFilter" IsChecked="{Binding IsFiltering}"></CheckBox>

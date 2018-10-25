@@ -239,7 +239,6 @@ namespace Inside_MMA.ViewModels
             {
                 if (Equals(value, _clearData)) return;
                 _clearData = value;
-                OnPropertyChanged();
             }
         }
         public ICommand ShowChart { get; set; }
@@ -486,7 +485,6 @@ namespace Inside_MMA.ViewModels
         private bool _isAnchorEnabled;
         private ICommand _closing;
         private ICommand _clearData;
-        private bool _chartEnabled;
         private bool _isFiltering;
         private AllTradesCounterItem _selectedItem;
 
@@ -510,20 +508,20 @@ namespace Inside_MMA.ViewModels
         public void SetSecurity(string board, string seccode)
         {
             if (board == Board && seccode == Seccode) return;
-            _instrumentChanged = true;
-            TickDataHandler.UnsubscribeFromTicksEvent(HandleTicks);
+            _instrumentChanged = true;            
             _dispatcher.Invoke(() =>
             {
+                TickDataHandler.UnsubscribeFromTicksEvent(HandleTicks);
                 AllTradesCounters.Clear();
                 if (_barChart != null)
                 {
                     _barChartViewModel.Clear();
                 }
+                _ticks.Clear();
+                Board = board;
+                Seccode = seccode;
+                TickDataHandler.AddTradesCounterSubscribtion(Board, Seccode, HandleTicks);
             });
-            _ticks.Clear();
-            Board = board;
-            Seccode = seccode;
-            TickDataHandler.AddTradesCounterSubscribtion(Board, Seccode, HandleTicks);
         }
 
     }

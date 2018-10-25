@@ -57,10 +57,5 @@ namespace Inside_MMA.Views
             IsSelectingPrice.IsChecked = true;
             SelectPriceTextBox.Text = selectedItem.Price.ToString("F");
         }
-
-        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = "0123456789 ,".IndexOf(e.Text) < 0;
-        }
     }
 }

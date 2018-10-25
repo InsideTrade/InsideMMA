@@ -114,7 +114,7 @@
             <Label x:Name="Status" DockPanel.Dock="Left"  MinWidth="150">
                 <TextBlock >
                         <Run Text="Status: " Foreground="White" />
-                        <Run Text="{Binding StatusState}" Foreground="{Binding StatusStateColor}"/>
+                        <Run Text="{Binding Status}" Foreground="{Binding StatusStateColor}"/>
                 </TextBlock>
             </Label>
             <Rectangle DockPanel.Dock="Right" HorizontalAlignment="Right" Width="30" Height="30" x:Name="WebIcon">
