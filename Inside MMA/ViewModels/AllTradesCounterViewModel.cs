@@ -135,6 +135,17 @@ namespace Inside_MMA.ViewModels
                 OnPropertyChanged();
             }
         }
+        private string _seccodeTitle;
+        public string SeccodeTitle
+        {
+            get { return _seccodeTitle; }
+            set
+            {
+                _seccodeTitle = value;
+                OnPropertyChanged();
+            }
+        }
+        
         private bool _isFlatBalanceFiltering;
 
         public AllTradesCounterItem SelectedItem
@@ -258,8 +269,7 @@ namespace Inside_MMA.ViewModels
             SelectedItems.CollectionChanged += (sender, args) => OnPropertyChanged(nameof(MenuItemHeader));
             AllTradesCounterCollection = CollectionViewSource.GetDefaultView(AllTradesCounters);
             SeccodeTitle = (lmt) ? $"MI {Seccode} LMT" : $"MI {Seccode}";
-        }
-        public string SeccodeTitle { get; set; }
+        } 
 
         private void ShowCandlestick()
         {
@@ -521,8 +531,8 @@ namespace Inside_MMA.ViewModels
                 Board = board;
                 Seccode = seccode;
                 TickDataHandler.AddTradesCounterSubscribtion(Board, Seccode, HandleTicks);
+                SeccodeTitle = (_lmt) ? $"MI {Seccode} LMT" : $"MI {Seccode}";
             });
         }
-
     }
 }
