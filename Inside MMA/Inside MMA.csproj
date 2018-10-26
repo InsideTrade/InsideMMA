@@ -331,6 +331,9 @@
       <DependentUpon>AllTradesCandlestick.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AllTradesCandlestickViewModel.cs" />
+    <Compile Include="Views\AllTradesCounterGeneral.xaml.cs">
+      <DependentUpon>AllTradesCounterGeneral.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AllTradesSimple.xaml.cs">
       <DependentUpon>AllTradesSimple.xaml</DependentUpon>
     </Compile>
@@ -512,6 +515,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AllTradesCandlestick.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AllTradesCounterGeneral.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

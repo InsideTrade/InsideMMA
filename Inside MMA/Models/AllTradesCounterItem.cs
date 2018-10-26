@@ -16,6 +16,11 @@ namespace Inside_MMA.Models
         private double _percent;
         private double _balance;
         private string _buysell;
+        private int _buyLMT;
+        private int _sellLMT;
+        private int _deltaLMT;
+        private double _balanceLMT;
+        private int _countLMT;
 
         public int Quantity
         {
@@ -100,8 +105,62 @@ namespace Inside_MMA.Models
                 OnPropertyChanged();
             }
         }
+        public int BuyLMT
+        {
+            get { return _buyLMT; }
 
-        public AllTradesCounterItem(int quantity, int count, int buy, int sell, int delta, double percent)
+            set
+            {
+                if (value == _buyLMT) return;
+                _buyLMT = value;
+                OnPropertyChanged();
+            }
+        }
+        public int SellLMT
+        {
+            get { return _sellLMT; }
+            set
+            {
+                if (value == _sellLMT) return;
+                _sellLMT = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int DeltaLMT
+        {
+            get => _deltaLMT;
+            set
+            {
+                if (value == _deltaLMT) return;
+                _deltaLMT = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double BalanceLMT
+        {
+            get => _balanceLMT;
+            set
+            {
+                if (value == _balanceLMT) return;
+                _balanceLMT = value;
+                OnPropertyChanged();
+            }
+        }
+        
+        public int CountLMT
+        {
+            get => _countLMT;
+            set
+            {
+                if (value == _countLMT) return;
+                _countLMT = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public AllTradesCounterItem(int quantity, int count, int buy, int sell, int delta, double percent, int countLMT = 0, int buyLMT = 0, int sellLMT = 0, int deltaLMT = 0, double balanceLMT = 0.0)
         {
             Quantity = quantity;
             Count = count;
@@ -109,6 +168,11 @@ namespace Inside_MMA.Models
             Sell = sell;
             Delta = delta;
             Percent = percent;
+            BuyLMT = buyLMT;
+            SellLMT = sellLMT;
+            DeltaLMT = deltaLMT;
+            BalanceLMT = balanceLMT;
+            CountLMT = countLMT;
         }
         public event PropertyChangedEventHandler PropertyChanged;
         [NotifyPropertyChangedInvocator]

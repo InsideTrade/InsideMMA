@@ -69,6 +69,7 @@
                 <MenuItem Header="All Trades" Command="{Binding SecurityChooseCommand}" CommandParameter="allTradesSimple" IsEnabled="{Binding WindowAvailabilityManager.AllTradesEnabled}" />
                 <MenuItem Header="Trades Counter" Command="{Binding SecurityChooseCommand}" CommandParameter="allTradesCounter" IsEnabled="{Binding WindowAvailabilityManager.TradesCounterEnabled}"/>
                 <MenuItem Header="Trades Counter LMT" Command="{Binding SecurityChooseCommand}" CommandParameter="counterLMT" IsEnabled="{Binding WindowAvailabilityManager.TradesCounterEnabled}"/>
+                <MenuItem Header="Trades Counter General" Command="{Binding SecurityChooseCommand}" CommandParameter="allTradesCounterGeneral"/>
                 <MenuItem Header="Trades Counter (from file)" Command="{Binding OpenWindowCommand}" CommandParameter="allTradesCounterFile" IsEnabled="{Binding WindowAvailabilityManager.TradesCounterEnabled}"/>
                 <MenuItem Header="Candlestick" Command="{Binding SecurityChooseCommand}" CommandParameter="scichart" IsEnabled="{Binding WindowAvailabilityManager.ChartEnabled}"/>
                 <MenuItem Header="Spread" Command="{Binding SecurityChooseCommand}" CommandParameter="spread"/>

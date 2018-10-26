@@ -1,0 +1,82 @@
+﻿<controls:MetroWindow x:Class="Inside_MMA.Views.AllTradesCounterGeneral"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Inside_MMA.Views"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:viewModels="clr-namespace:Inside_MMA.ViewModels"
+        mc:Ignorable="d"
+        Title="{Binding SeccodeTitle}"  Height="450" Width="880">
+    <Grid>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding AllTradesCounterCollection}" GridLinesVisibility="All" IsReadOnly="True" SelectionMode="Extended" SelectionUnit="FullRow" SelectedItem="{Binding SelectedItem}" AutoGenerateColumns="False">
+            <i:Interaction.Behaviors>
+                <viewModels:DataGridSelectedItemsBlendBehavior SelectedItems="{Binding SelectedItems}" />
+            </i:Interaction.Behaviors>
+            <DataGrid.Columns>
+                <DataGridTextColumn FontSize="13" Header="Size" FontWeight="Bold"
+                      Binding="{Binding Quantity}" Width="70"/>
+                <DataGridTextColumn FontSize="13" Header="Count" FontWeight="Bold"
+                      Binding="{Binding Count}" Width="70" />
+                <DataGridTextColumn FontSize="13" Header="Buy" FontWeight="Bold"
+                      Binding="{Binding Buy}" Width="60"/>
+                <DataGridTextColumn FontSize="13" Header="Sell" FontWeight="Bold"
+                      Binding="{Binding Sell}" Width="60" />
+                <DataGridTextColumn FontSize="13" Header="Delta" FontWeight="Bold"
+                                    Binding="{Binding Delta}" Width="60">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource MetroDataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Buysell}" Value="S">
+                                    <Setter Property="Foreground" Value="#FF5252"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Buysell}" Value="B">
+                                    <Setter Property="Foreground" Value="Green"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Buysell}" Value="">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn FontSize="13" Header="Balance" FontWeight="Bold"
+                                    Binding="{Binding Balance}" Width="100" />
+                <DataGridTextColumn FontSize="13" Header="Count LMT" FontWeight="Bold"
+                      Binding="{Binding CountLMT}" Width="90" />
+                <DataGridTextColumn FontSize="13" Header="Buy LMT" FontWeight="Bold"
+                      Binding="{Binding BuyLMT}" Width="85"/>
+                <DataGridTextColumn FontSize="13" Header="Sell LMT" FontWeight="Bold"
+                      Binding="{Binding SellLMT}" Width="85" />
+                <DataGridTextColumn FontSize="13" Header="Delta LMT" FontWeight="Bold"
+                                    Binding="{Binding DeltaLMT}" Width="85">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource MetroDataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Buysell}" Value="S">
+                                    <Setter Property="Foreground" Value="#FF5252"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Buysell}" Value="B">
+                                    <Setter Property="Foreground" Value="Green"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Buysell}" Value="">
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn FontSize="13" Header="Balance Lmt" FontWeight="Bold"
+                                    Binding="{Binding BalanceLMT}" Width="100" />
+            </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="{Binding MenuItemHeader}"
+                              HeaderStringFormat="Size selector: {0}" Command="{Binding ShowChart}"></MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+    </Grid>
+</controls:MetroWindow>

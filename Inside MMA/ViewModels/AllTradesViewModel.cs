@@ -250,9 +250,19 @@ namespace Inside_MMA.ViewModels
         
         private void UpdateArgs(object state)
         {
-            Amount = AllTradesCollection.Count.ToString();
-            AmountMI = AllTradesCollection.Count(t => t.IsMul).ToString();
-            UpdateWindowArgs(Filter);           
+            try
+            {
+                Amount = AllTradesCollection.Count.ToString();
+                AmountMI = AllTradesCollection.Count(t => t.IsMul).ToString();
+            }
+            catch (Exception)
+            {
+                //пока так, потом исправлю и удалю весь блок этот с try/catch;
+            }
+            finally
+            {
+                UpdateWindowArgs(Filter);
+            }
         }
 
         private void ShowTradesChart()

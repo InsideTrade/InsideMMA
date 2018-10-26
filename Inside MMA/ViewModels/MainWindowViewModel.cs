@@ -830,7 +830,12 @@ namespace Inside_MMA.ViewModels
                 case "allTradesCounter":
                 {
                     new AllTradesCounterWindow { DataContext = new AllTradesCounterViewModel(board, seccode) }.Show();
-                        break;
+                    break;
+                }
+                case "allTradesCounterGeneral":
+                {
+                    new AllTradesCounterGeneral { DataContext = new AllTradesCounterViewModel(board, seccode, true, true) }.Show();
+                    break;
                 }
                 case "counterLMT":
                 {
